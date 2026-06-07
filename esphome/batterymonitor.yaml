@@ -3,6 +3,12 @@ esphome:
   name: threechanvoltage-1
   friendly_name: threeChanVoltage_1
 
+#esp32:
+#    variant: esp32c6
+#    board: seeed_xiao_esp32c6
+#    framework:
+#        type: esp-idf
+
 esp8266:
   board: esp01_1m
 
