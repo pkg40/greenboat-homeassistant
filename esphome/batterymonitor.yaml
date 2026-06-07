@@ -1,0 +1,79 @@
+
+esphome:
+  name: threechanvoltage-1
+  friendly_name: threeChanVoltage_1
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret esp_psk2
+
+ota:
+  - platform: esphome
+    password: !secret esphome_password2
+
+wifi:
+  networks:
+    - ssid: !secret home_wifi_ssid
+      password: !secret home_wifi_password
+    - ssid: !secret boat_wifi_ssid_5G
+      password: !secret boat_wifi_password_5G
+    - ssid: ! secret boat_wifi_ssid
+      password: !secret boat_wifi_password
+    - ssid: !secret hell_wifi_ssid
+      password: !secret hell_wifi_password
+    - ssid: !secret searun_wifi
+      password: !secret searun_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Threechanvoltage-1"
+    password: !secret std_password
+
+captive_portal:
+
+# Example configuration entry
+i2c:
+  - id: bus_a
+    scan: true
+# Sensors should be specified as follows
+sensor:
+  - platform: ina3221
+    address: 0x40
+    channel_1:
+      shunt_resistance: 0.1 ohm
+      current:
+        name: "Battery 1 Current"
+      power:
+        name: "Battery 1 Power"
+      bus_voltage:
+        name: "Battery 1 Bus Voltage"
+      shunt_voltage:
+        name: "Battery 1 Shunt Voltage"
+    channel_2:
+      shunt_resistance: 0.1 ohm
+      current:
+        name: "Battery 2 Current"
+      power:
+        name: "Battery 2 Power"
+      bus_voltage:
+        name: "Battery 2 Bus Voltage"
+      shunt_voltage:
+        name: "Battery 2 Shunt Voltage"
+    channel_3:
+      shunt_resistance: 0.1 ohm
+      current:
+        name: "Battery 3 Current"
+      power:
+        name: "Battery 3 Power"
+      bus_voltage:
+        name: "Battery 3 Bus Voltage"
+      shunt_voltage:
+        name: "Battery 3 Shunt Voltage"
+    update_interval: 60s

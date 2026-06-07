@@ -1,0 +1,56 @@
+# ============================
+#   SIGNAL K – NAVIGATION
+# ============================
+
+# Position
+- resource: !secret signalk_nav_position
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Latitude"
+      unique_id: "signalk_latitude"
+      value_template: "{{ value_json.value.latitude }}"
+      unit_of_measurement: "deg"
+    - name: "SignalK Longitude"
+      unique_id: "signalk_longitude"
+      value_template: "{{ value_json.value.longitude }}"
+      unit_of_measurement: "deg"
+# Course Over Ground (True)
+- resource: !secret signalk_nav_cog_true
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK COG True"
+      unique_id: "signalk_cog_true"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "rad"
+
+# Course Over Ground (Magnetic)
+- resource: !secret signalk_nav_cog_mag
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK COG Magnetic"
+      unique_id: "signalk_cog_mag"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "rad"
+
+# Speed Over Ground
+- resource: !secret signalk_nav_sog
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK SOG"
+      unique_id: "signalk_sog"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "m/s"
+
+# Speed Through Water
+- resource: !secret signalk_nav_stw
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK STW"
+      unique_id: "signalk_stw"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "m/s"

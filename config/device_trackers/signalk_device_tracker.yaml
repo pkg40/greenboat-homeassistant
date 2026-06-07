@@ -1,0 +1,6 @@
+- platform: template
+  trackers:
+    - name: "Boat Position"
+      latitude: "{{ states('sensor.signalk_latitude') | float }}"
+      longitude: "{{ states('sensor.signalk_longitude') | float }}"
+      source_type: gps

@@ -1,0 +1,9 @@
+title: Developer Tools
+views:
+  - title: DevTools
+    path: devtools
+    panel: true
+    cards:
+      - type: iframe
+        url: /developer-tools
+        aspect_ratio: 100%

@@ -1,9 +1,22 @@
-- id: '1780520628159'
+- id: '1780730883694'
   alias: Daily Git Export
   description: ''
   triggers:
   - at: 03:00:00
     trigger: time
+  conditions: []
+  actions:
+  - data:
+      addon: 68413af6_git-exporter
+    action: hassio.addon_restart
+  mode: single
+- id: '1780730885289'
+  alias: Daily Git Export
+  description: ''
+  triggers:
+  - at: 03:00:00
+    trigger: time
+  conditions: []
   actions:
   - data:
       addon: 68413af6_git-exporter

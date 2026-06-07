@@ -1,0 +1,10 @@
+- trigger:
+    - platform: state
+      entity_id:
+        - sensor.signalk_latitude
+        - sensor.signalk_longitude
+  sensor:
+    - name: "SignalK Position"
+      unique_id: "signalk_position"
+      state: >
+        {{ states('sensor.signalk_latitude') }}, {{ states('sensor.signalk_longitude') }}

@@ -1,0 +1,11 @@
+- id: '1780520628159'
+  alias: Daily Git Export
+  description: ''
+  triggers:
+  - at: 03:00:00
+    trigger: time
+  actions:
+  - data:
+      addon: 68413af6_git-exporter
+    action: hassio.addon_restart
+  mode: single

@@ -1,11 +1,141 @@
-
 # Loads default set of integrations. Do not remove.
-default_config:
+#default_config:
 
 # Load frontend themes from the themes folder
-frontend:
-  themes: !include_dir_merge_named themes
+#frontend:
+#  themes: !include_dir_merge_named themes
 
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
+#automation: !include_dir_merge_list automations/
+#script: !include_dir_merge_named scripts/
+#scene: !include_dir_merge_list scenes/
+#template: !include_dir_merge_list templates/
+#sensor: !include_dir_merge_list sensors/
+#binary_sensor: !include_dir_merge_list binary_sensors/
+#rest_command: !include_dir_merge_named rest_commands/
+
+# ============================
+#   HOME ASSISTANT CORE
+# ============================
+
+homeassistant:
+  name: Home
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+  unit_system: metric
+  time_zone: America/Vancouver
+  country: CA
+  currency: CAD
+
+  # Customizations
+  customize: !include customize.yaml
+
+# ============================
+#   DEFAULT INTEGRATIONS
+# ============================
+
+default_config:
+
+# ============================
+#   LOGGING
+# ============================
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.automation: warning
+    homeassistant.components.script: warning
+
+# ============================
+#   HTTP / API
+# ============================
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.0.0.0/16
+    - 172.30.0.0/16
+
+# ============================
+#   RECORDER / HISTORY
+# ============================
+
+recorder:
+  purge_keep_days: 14
+  commit_interval: 30
+  exclude:
+    domains:
+      - updater
+      - media_player
+    entities:
+      - sensor.time
+
+# ============================
+#   DIRECTORY-BASED INCLUDES
+# ============================
+
+# LIST-BASED DOMAINS
+automation: !include_dir_merge_list automations/
+scene: !include_dir_merge_list scenes/
+template: !include_dir_merge_list templates/
+sensor: !include_dir_merge_list sensors/
+binary_sensor: !include_dir_merge_list binary_sensors/
+
+# DICTIONARY-BASED DOMAINS
+script: !include_dir_merge_named scripts/
+#rest: !include_dir_merge_named rest_commands/
+shell_command: !include_dir_merge_named shell_commands/
+input_boolean: !include_dir_merge_named input_booleans/
+input_number: !include_dir_merge_named input_numbers/
+input_text: !include_dir_merge_named input_texts/
+input_select: !include_dir_merge_named input_selects/
+
+# ============================
+#   FRONTEND / DASHBOARDS
+# ============================
+
+lovelace:
+  mode: storage
+#  dashboards: !include dashboards/dashboards.yaml
+
+# ============================
+#   MQTT (OPTIONAL)
+# ============================
+
+mqtt: !include integrations/mqtt.yaml
+
+# ============================
+#   SIGNALK (OPTIONAL)
+# ============================
+
+rest: !include_dir_merge_list restful/
+
+# ============================
+#   ESPHOME (OPTIONAL)
+# ============================
+
+esphome:
+  name_add_mac_suffix: false
+
+# ============================
+#   TEXT-TO-SPEECH
+# ============================
+
+tts:
+  - platform: google_translate
+
+# Custom Panels
+panel_custom:
+  - name: Zigbee Home Automation
+    sidebar_title: Zigbee Home Automation
+    sidebar_icon: mdi:zigbee
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: config/integrations/integration/zha
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
+
+frontend:
+  extra_module_url:
+    - /hacsfiles/custom-sidebar/custom-sidebar-plugin.js

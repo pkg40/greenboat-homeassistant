@@ -6,3 +6,24 @@ items:
   show_in_sidebar: true
   title: Map
   url_path: map
+- icon: mdi:ferry
+  id: dashboard_searun
+  mode: storage
+  require_admin: false
+  show_in_sidebar: true
+  title: Searun
+  url_path: dashboard-searun
+- icon: mdi:hammer-wrench
+  id: developer_tools
+  mode: storage
+  require_admin: false
+  show_in_sidebar: true
+  title: developer-tools
+  url_path: developer-tools
+- icon: mdi:image-multiple
+  id: dashboard_integrations
+  mode: storage
+  require_admin: false
+  show_in_sidebar: false
+  title: Integrations
+  url_path: dashboard-integrations

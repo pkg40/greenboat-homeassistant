@@ -1,0 +1,23 @@
+# ============================
+#   SIGNAL K – ENGINE (FUTURE)
+# ============================
+
+# Engine RPM
+- resource: !secret signalk_engine1_rpm
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Engine RPM"
+      unique_id: "signalk_engine_rpm"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "rpm"
+
+# Engine Temperature
+- resource: !secret signalk_engine1_temp
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Engine Temp"
+      unique_id: "signalk_engine_temp"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "°C"

@@ -1,0 +1,42 @@
+config:
+  views:
+  - cards: []
+    icon: mdi:home
+    max_columns: 4
+    sections: []
+    title: Main
+    type: sections
+  - icon: mdi:view-dashboard-variant
+    max_columns: 4
+    path: system
+    sections:
+    - cards: []
+      type: grid
+    title: System
+    type: sections
+  - cards:
+    - entities:
+      - entity: sensor.esquimalt_warnings
+      - entity: sensor.esquimalt_advisories
+      - entity: sensor.esquimalt_barometric_pressure
+        icon: mdi:gauge
+        name: Air Pressure
+      - entity: sensor.esquimalt_temperature
+        name: Air Temperature
+      - entity: sensor.esquimalt_humidity
+        name: Humidity
+      state_color: true
+      title: Esquimalt Observations
+      type: entities
+    icon: mdi:weather-lightning-rainy
+    path: environment
+    title: Environment
+    type: masonry
+  - icon: mdi:clipboard
+    max_columns: 4
+    path: work-sheet
+    sections:
+    - cards: []
+      type: grid
+    title: Work Sheet
+    type: sections

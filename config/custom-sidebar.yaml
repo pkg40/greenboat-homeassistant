@@ -1,0 +1,10 @@
+sidebar:
+  - item: Integrations
+    icon: mdi:puzzle
+    href: /config/integrations
+
+  - item: Add-ons
+    icon: mdi:package-variant
+    href: /hassio/dashboard
+
+  - sidebar: true

@@ -1,0 +1,14 @@
+{}
+# Example customizations (uncomment and edit as needed)
+#
+# light.cabin:
+#   friendly_name: Cabin Lights
+#   icon: mdi:lightbulb
+#
+# sensor.battery_voltage:
+#   unit_of_measurement: "V"
+#   device_class: voltage
+#
+# binary_sensor.anchor_alarm:
+#   friendly_name: Anchor Alarm
+#   icon: mdi:anchor

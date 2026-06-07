@@ -1,0 +1,13 @@
+# ============================
+#   SIGNAL K – PERFORMANCE
+# ============================
+
+# Velocity Made Good
+- resource: !secret signalk_perf_vmg
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK VMG"
+      unique_id: "signalk_vmg"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "m/s"

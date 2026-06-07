@@ -1,0 +1,53 @@
+# ============================
+#   SIGNAL K – ENVIRONMENT
+# ============================
+
+# Depth Below Transducer
+- resource: !secret signalk_env_depth
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Depth"
+      unique_id: "signalk_depth"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "m"
+
+# Apparent Wind Angle
+- resource: !secret signalk_env_wind_angle_app
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Wind Angle Apparent"
+      unique_id: "signalk_wind_angle_apparent"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "rad"
+
+# True Wind Angle (Water)
+- resource: !secret signalk_env_wind_angle_true
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Wind Angle True Water"
+      unique_id: "signalk_wind_angle_true_water"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "rad"
+
+# Apparent Wind Speed
+- resource: !secret signalk_env_wind_speed_app
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Wind Speed Apparent"
+      unique_id: "signalk_wind_speed_apparent"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "m/s"
+
+# True Wind Speed
+- resource: !secret signalk_env_wind_speed_true
+  verify_ssl: false
+  scan_interval: 5
+  sensor:
+    - name: "SignalK Wind Speed True"
+      unique_id: "signalk_wind_speed_true"
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "m/s"
