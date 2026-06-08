@@ -1,0 +1,24 @@
+# ============================
+#   PROPULSION HELPERS
+# ============================
+
+- sensor:
+    # ---------------------------
+    # ENGINE RPM
+    # ---------------------------
+    - name: "Engine RPM"
+      unique_id: "helper_engine_rpm"
+      unit_of_measurement: "rpm"
+      state: >
+        {% set v = states('sensor.signalk_engine_rpm') %}
+        {{ v | float | round(0) }}
+
+    # ---------------------------
+    # ENGINE TEMPERATURE (°C)
+    # ---------------------------
+    - name: "Engine Temperature"
+      unique_id: "helper_engine_temp"
+      unit_of_measurement: "°C"
+      state: >
+        {% set v = states('sensor.signalk_engine_temp') %}
+        {{ v | float | round(1) }}

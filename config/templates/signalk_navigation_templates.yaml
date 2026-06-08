@@ -1,0 +1,82 @@
+# ============================
+# Navigation Helpers
+# ============================
+
+- sensor:
+    # ---------------------------
+    # SPEED OVER GROUND (knots)
+    # ---------------------------
+    - name: "SOG"
+      unique_id: "helper_sog"
+      unit_of_measurement: "kn"
+      state: >
+        {% set use_dd = is_state('input_boolean.use_derived_data', 'on') %}
+        {% set dd = states('sensor.signalk_navigation_speedOverGround') %}
+        {% set raw = states('sensor.raw_sog') %}
+        {% set v = dd if (use_dd and dd not in ['unknown','unavailable','none','']) else raw %}
+        {{ (v | float * 1.94384) | round(2) }}
+
+    # ---------------------------
+    # SPEED THROUGH WATER (knots)
+    # ---------------------------
+    - name: "STW"
+      unique_id: "helper_stw"
+      unit_of_measurement: "kn"
+      state: >
+        {% set use_dd = is_state('input_boolean.use_derived_data', 'on') %}
+        {% set dd = states('sensor.signalk_navigation_speedThroughWater') %}
+        {% set raw = states('sensor.raw_stw') %}
+        {% set v = dd if (use_dd and dd not in ['unknown','unavailable','none','']) else raw %}
+        {{ (v | float * 1.94384) | round(2) }}
+
+    # ---------------------------
+    # COG MAGNETIC (degrees)
+    # ---------------------------
+    - name: "COG Magnetic"
+      unique_id: "helper_cog_mag"
+      unit_of_measurement: "°"
+      state: >
+        {% set use_dd = is_state('input_boolean.use_derived_data', 'on') %}
+        {% set dd = states('sensor.signalk_navigation_courseOverGroundMagnetic') %}
+        {% set raw = states('sensor.raw_cog_mag') %}
+        {% set rad = dd if (use_dd and dd not in ['unknown','unavailable','none','']) else raw %}
+        {{ ((rad | float * 57.2958) % 360) | round(1) }}
+
+    # ---------------------------
+    # COG TRUE (degrees)
+    # ---------------------------
+    - name: "COG True"
+      unique_id: "helper_cog_true"
+      unit_of_measurement: "°"
+      state: >
+        {% set use_dd = is_state('input_boolean.use_derived_data', 'on') %}
+        {% set dd = states('sensor.signalk_navigation_courseOverGroundTrue') %}
+        {% set raw = states('sensor.raw_cog_true') %}
+        {% set rad = dd if (use_dd and dd not in ['unknown','unavailable','none','']) else raw %}
+        {{ ((rad | float * 57.2958) % 360) | round(1) }}
+
+    # ---------------------------
+    # HEADING MAGNETIC (degrees)
+    # ---------------------------
+    - name: "Heading Magnetic"
+      unique_id: "helper_hdg_mag"
+      unit_of_measurement: "°"
+      state: >
+        {% set use_dd = is_state('input_boolean.use_derived_data', 'on') %}
+        {% set dd = states('sensor.signalk_navigation_headingMagnetic') %}
+        {% set raw = states('sensor.raw_hdg_mag') %}
+        {% set rad = dd if (use_dd and dd not in ['unknown','unavailable','none','']) else raw %}
+        {{ ((rad | float * 57.2958) % 360) | round(1) }}
+
+    # ---------------------------
+    # HEADING TRUE (degrees)
+    # ---------------------------
+    - name: "Heading True"
+      unique_id: "helper_hdg_true"
+      unit_of_measurement: "°"
+      state: >
+        {% set use_dd = is_state('input_boolean.use_derived_data', 'on') %}
+        {% set dd = states('sensor.signalk_navigation_headingTrue') %}
+        {% set raw = states('sensor.raw_hdg_true') %}
+        {% set rad = dd if (use_dd and dd not in ['unknown','unavailable','none','']) else raw %}
+        {{ ((rad | float * 57.2958) % 360) | round(1) }}

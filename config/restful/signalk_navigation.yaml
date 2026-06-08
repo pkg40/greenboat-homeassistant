@@ -1,56 +1,89 @@
 # ============================
 #   SIGNAL K – NAVIGATION
 # ============================
+# ============================
+# Signal K Navigation (RAW)
+# ============================
 
-# Position
+# Position (Latitude & Longitude)
 - resource: !secret signalk_nav_position
-  verify_ssl: false
-  scan_interval: 5
+  headers:
+    Authorization: !secret signalk_token
+  scan_interval: 10
   sensor:
     - name: "SignalK Latitude"
       unique_id: "signalk_latitude"
-      value_template: "{{ value_json.value.latitude }}"
+      value_template: "{{ value_json.value.latitude | round(6) }}"
       unit_of_measurement: "deg"
     - name: "SignalK Longitude"
       unique_id: "signalk_longitude"
-      value_template: "{{ value_json.value.longitude }}"
+      value_template: "{{ value_json.value.longitude | round(6) }}"
       unit_of_measurement: "deg"
-# Course Over Ground (True)
+
+# COG True
 - resource: !secret signalk_nav_cog_true
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "SignalK COG True"
-      unique_id: "signalk_cog_true"
-      value_template: "{{ value_json.value }}"
+    - name: "Raw COG True"
+      unique_id: "raw_cog_true"
+      value_template: "{{ value_json.value | float }}"
       unit_of_measurement: "rad"
 
-# Course Over Ground (Magnetic)
+# COG Magnetic
 - resource: !secret signalk_nav_cog_mag
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "SignalK COG Magnetic"
-      unique_id: "signalk_cog_mag"
-      value_template: "{{ value_json.value }}"
+    - name: "Raw COG Magnetic"
+      unique_id: "raw_cog_mag"
+      value_template: "{{ value_json.value | float }}"
       unit_of_measurement: "rad"
 
-# Speed Over Ground
-- resource: !secret signalk_nav_sog
-  verify_ssl: false
+# Heading True
+- resource: !secret signalk_nav_hdg_true
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "SignalK SOG"
-      unique_id: "signalk_sog"
-      value_template: "{{ value_json.value }}"
+    - name: "Raw Heading True"
+      unique_id: "raw_hdg_true"
+      value_template: "{{ value_json.value | float }}"
+      unit_of_measurement: "rad"
+
+# Heading Magnetic
+- resource: !secret signalk_nav_hdg_mag
+  headers:
+    Authorization: !secret signalk_token
+  scan_interval: 5
+  sensor:
+    - name: "Raw Heading Magnetic"
+      unique_id: "raw_hdg_mag"
+      value_template: "{{ value_json.value | float }}"
+      unit_of_measurement: "rad"
+
+# ── SPEEDS — raw m/s, no conversion ───────────────────────────
+
+# SOG
+- resource: !secret signalk_nav_sog
+  headers:
+    Authorization: !secret signalk_token
+  scan_interval: 5
+  sensor:
+    - name: "Raw SOG"
+      unique_id: "raw_sog"
+      value_template: "{{ value_json.value | float }}"
       unit_of_measurement: "m/s"
 
-# Speed Through Water
+# STW
 - resource: !secret signalk_nav_stw
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "SignalK STW"
-      unique_id: "signalk_stw"
-      value_template: "{{ value_json.value }}"
+    - name: "Raw STW"
+      unique_id: "raw_stw"
+      value_template: "{{ value_json.value | float }}"
       unit_of_measurement: "m/s"

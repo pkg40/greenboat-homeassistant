@@ -1,0 +1,54 @@
+# ============================
+#   ENVIRONMENT HELPERS
+# ============================
+
+- sensor:
+    # ---------------------------
+    # DEPTH BELOW TRANSDUCER (m)
+    # ---------------------------
+    - name: "Depth"
+      unique_id: "helper_depth"
+      unit_of_measurement: "m"
+      state: >
+        {% set raw = states('sensor.signalk_depth') %}
+        {{ raw | float | round(2) }}
+
+    # ---------------------------
+    # WIND ANGLE APPARENT (°)
+    # ---------------------------
+    - name: "Wind Angle Apparent"
+      unique_id: "helper_wind_angle_apparent"
+      unit_of_measurement: "°"
+      state: >
+        {% set rad = states('sensor.signalk_wind_angle_apparent') %}
+        {{ ((rad | float) * 57.2958) | round(1) }}
+
+    # ---------------------------
+    # WIND ANGLE TRUE (WATER) (°)
+    # ---------------------------
+    - name: "Wind Angle True Water"
+      unique_id: "helper_wind_angle_true_water"
+      unit_of_measurement: "°"
+      state: >
+        {% set rad = states('sensor.signalk_wind_angle_true_water') %}
+        {{ ((rad | float) * 57.2958) | round(1) }}
+
+    # ---------------------------
+    # WIND SPEED APPARENT (kn)
+    # ---------------------------
+    - name: "Wind Speed Apparent"
+      unique_id: "helper_wind_speed_apparent"
+      unit_of_measurement: "kn"
+      state: >
+        {% set ms = states('sensor.signalk_wind_speed_apparent') %}
+        {{ ((ms | float) * 1.94384) | round(2) }}
+
+    # ---------------------------
+    # WIND SPEED TRUE (kn)
+    # ---------------------------
+    - name: "Wind Speed True"
+      unique_id: "helper_wind_speed_true"
+      unit_of_measurement: "kn"
+      state: >
+        {% set ms = states('sensor.signalk_wind_speed_true') %}
+        {{ ((ms | float) * 1.94384) | round(2) }}

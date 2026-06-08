@@ -1,0 +1,6 @@
+# User defined enable flags
+
+use_derived_data:
+  name: "Use Derived Data"
+  icon: mdi:toggle-switch
+

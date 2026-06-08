@@ -1,9 +1,184 @@
 config:
   views:
   - cards: []
+    footer:
+      card:
+        entities:
+        - entity: sensor.signalk_wind_angle_true_water
+          icon: mdi:clock-outline
+          name: Wind Angle True
+          secondary_info: last-updated
+        - entity: sensor.signalk_wind_angle_apparent
+          icon: mdi:clock-outline
+          name: Wind Angle Apparent
+          secondary_info: last-updated
+        - entity: sensor.signalk_wind_speed_true
+          icon: mdi:clock-outline
+          name: Wind Speed True
+          secondary_info: last-updated
+        - entity: sensor.signalk_wind_speed_apparent
+          icon: mdi:clock-outline
+          name: Wind Speed Apparent
+          secondary_info: last-updated
+        show_header_toggle: false
+        state_color: true
+        title: Last Updated
+        type: entities
     icon: mdi:home
     max_columns: 4
-    sections: []
+    sections:
+    - background:
+        color: lime
+        opacity: 50
+      cards:
+      - heading: Navigation
+        type: heading
+      - color: purple
+        entity: sensor.cog_true
+        features:
+        - type: trend-graph
+        features_position: bottom
+        show_entity_picture: true
+        type: tile
+        vertical: true
+      - cards:
+        - entity: sensor.sog
+          max: 20
+          min: 0
+          name: SOG
+          needle: true
+          severity:
+            green: 0
+            red: 14
+            yellow: 7
+          type: gauge
+          unit: kn
+        - entity: sensor.stw
+          max: 20
+          min: 0
+          name: STW
+          needle: true
+          severity:
+            green: 0
+            red: 14
+            yellow: 7
+          type: gauge
+          unit: kn
+        type: horizontal-stack
+      column_span: 1
+      type: grid
+    - background:
+        color: amber
+        opacity: 50
+      cards:
+      - heading: New section
+        type: heading
+      - cards:
+        - entity: sensor.helper_cog_true
+          max: 360
+          min: 0
+          name: COG True
+          needle: true
+          type: gauge
+          unit: "\xB0"
+        - entity: sensor.helper_cog_mag
+          max: 360
+          min: 0
+          name: COG Mag
+          needle: true
+          type: gauge
+          unit: "\xB0"
+        type: horizontal-stack
+      - cards:
+        - entity: sensor.helper_hdg_true
+          max: 360
+          min: 0
+          name: HDG True
+          needle: true
+          type: gauge
+          unit: "\xB0"
+        - entity: sensor.helper_hdg_mag
+          max: 360
+          min: 0
+          name: HDG Mag
+          needle: true
+          type: gauge
+          unit: "\xB0"
+        type: horizontal-stack
+      - entities:
+        - entity: sensor.helper_cog_true
+          icon: mdi:compass
+          name: "COG \u2014 True"
+          secondary_info: last-updated
+        - entity: sensor.helper_cog_mag
+          icon: mdi:compass-outline
+          name: "COG \u2014 Magnetic"
+          secondary_info: last-updated
+        - entity: sensor.helper_hdg_true
+          icon: mdi:ship-wheel
+          name: "HDG \u2014 True"
+          secondary_info: last-updated
+        - entity: sensor.helper_hdg_mag
+          icon: mdi:navigation-variant
+          name: "HDG \u2014 Magnetic"
+          secondary_info: last-updated
+        show_header_toggle: false
+        title: Course & Heading Detail
+        type: entities
+      column_span: 1
+      type: grid
+    - background:
+        color: light-blue
+        opacity: 50
+      cards:
+      - heading: New section
+        type: heading
+      - entities:
+        - entity: input_boolean.use_derived_data
+          icon: mdi:chart-timeline-variant-shimmer
+          name: Use Derived / Calculated Data
+          secondary_info: last-changed
+        show_header_toggle: false
+        title: Data Source
+        type: entities
+      - card:
+          content: "<ha-alert alert-type=\"warning\">\n  **SOG unavailable** \u2014\
+            \ verify GPS / NMEA 0183 source\n</ha-alert>\n"
+          type: markdown
+        conditions:
+        - condition: state
+          entity: sensor.helper_sog
+          state: unavailable
+        type: conditional
+      - card:
+          content: "<ha-alert alert-type=\"warning\">\n  **STW unavailable** \u2014\
+            \ verify Paddle Wheel source\n</ha-alert>\n"
+          type: markdown
+        conditions:
+        - condition: state
+          entity: sensor.helper_stw
+          state: unavailable
+        type: conditional
+      - card:
+          content: "<ha-alert alert-type=\"warning\">\n  **COG unavailable** \u2014\
+            \ verify GPS / NMEA 0183 source\n</ha-alert>\n"
+          type: markdown
+        conditions:
+        - condition: state
+          entity: sensor.helper_cog_true
+          state: unavailable
+        type: conditional
+      - card:
+          content: "<ha-alert alert-type=\"warning\">\n  **HDG unavailable** \u2014\
+            \ verify Digital Compass source\n</ha-alert>\n"
+          type: markdown
+        conditions:
+        - condition: state
+          entity: sensor.helper_hdg_true
+          state: unavailable
+        type: conditional
+      column_span: 1
+      type: grid
     title: Main
     type: sections
   - icon: mdi:view-dashboard-variant
@@ -39,4 +214,12 @@ config:
     - cards: []
       type: grid
     title: Work Sheet
+    type: sections
+  - icon: mdi:compass-rose
+    max_columns: 4
+    path: navigational
+    sections:
+    - cards: []
+      type: grid
+    title: Navigational
     type: sections

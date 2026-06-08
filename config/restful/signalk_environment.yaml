@@ -4,7 +4,8 @@
 
 # Depth Below Transducer
 - resource: !secret signalk_env_depth
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
     - name: "SignalK Depth"
@@ -14,7 +15,8 @@
 
 # Apparent Wind Angle
 - resource: !secret signalk_env_wind_angle_app
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
     - name: "SignalK Wind Angle Apparent"
@@ -24,7 +26,8 @@
 
 # True Wind Angle (Water)
 - resource: !secret signalk_env_wind_angle_true
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
     - name: "SignalK Wind Angle True Water"
@@ -34,7 +37,8 @@
 
 # Apparent Wind Speed
 - resource: !secret signalk_env_wind_speed_app
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
     - name: "SignalK Wind Speed Apparent"
@@ -44,7 +48,8 @@
 
 # True Wind Speed
 - resource: !secret signalk_env_wind_speed_true
-  verify_ssl: false
+  headers:
+    Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
     - name: "SignalK Wind Speed True"
