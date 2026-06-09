@@ -1,24 +1,34 @@
 # ============================
-#   PROPULSION HELPERS
+#   PROPULSION HELPERS (Trigger-Based)
+#   Keeps last valid value
 # ============================
 
-- sensor:
-    # ---------------------------
-    # ENGINE RPM
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_engine_rpm
+  sensor:
     - name: "Engine RPM"
       unique_id: "helper_engine_rpm"
       unit_of_measurement: "rpm"
       state: >
-        {% set v = states('sensor.signalk_engine_rpm') %}
-        {{ v | float | round(0) }}
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {{ v | float | round(0) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
 
-    # ---------------------------
-    # ENGINE TEMPERATURE (°C)
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_engine_temp
+  sensor:
     - name: "Engine Temperature"
       unique_id: "helper_engine_temp"
       unit_of_measurement: "°C"
       state: >
-        {% set v = states('sensor.signalk_engine_temp') %}
-        {{ v | float | round(1) }}
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {{ v | float | round(1) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}

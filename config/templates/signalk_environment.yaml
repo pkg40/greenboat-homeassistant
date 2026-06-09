@@ -1,54 +1,79 @@
 # ============================
-#   ENVIRONMENT HELPERS
+#   ENVIRONMENT HELPERS (Trigger-Based)
+#   Keeps last valid value
 # ============================
 
-- sensor:
-    # ---------------------------
-    # DEPTH BELOW TRANSDUCER (m)
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_depth
+  sensor:
     - name: "Depth"
       unique_id: "helper_depth"
       unit_of_measurement: "m"
       state: >
-        {% set raw = states('sensor.signalk_depth') %}
-        {{ raw | float | round(2) }}
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {{ v | float | round(2) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
 
-    # ---------------------------
-    # WIND ANGLE APPARENT (°)
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_wind_angle_apparent
+  sensor:
     - name: "Wind Angle Apparent"
       unique_id: "helper_wind_angle_apparent"
       unit_of_measurement: "°"
       state: >
-        {% set rad = states('sensor.signalk_wind_angle_apparent') %}
-        {{ ((rad | float) * 57.2958) | round(1) }}
+        {% set rad = trigger.to_state.state %}
+        {% if rad not in ['unknown','unavailable','none',''] %}
+          {{ ((rad | float) * 57.2958) | round(1) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
 
-    # ---------------------------
-    # WIND ANGLE TRUE (WATER) (°)
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_wind_angle_true_water
+  sensor:
     - name: "Wind Angle True Water"
       unique_id: "helper_wind_angle_true_water"
       unit_of_measurement: "°"
       state: >
-        {% set rad = states('sensor.signalk_wind_angle_true_water') %}
-        {{ ((rad | float) * 57.2958) | round(1) }}
+        {% set rad = trigger.to_state.state %}
+        {% if rad not in ['unknown','unavailable','none',''] %}
+          {{ ((rad | float) * 57.2958) | round(1) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
 
-    # ---------------------------
-    # WIND SPEED APPARENT (kn)
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_wind_speed_apparent
+  sensor:
     - name: "Wind Speed Apparent"
       unique_id: "helper_wind_speed_apparent"
       unit_of_measurement: "kn"
       state: >
-        {% set ms = states('sensor.signalk_wind_speed_apparent') %}
-        {{ ((ms | float) * 1.94384) | round(2) }}
+        {% set ms = trigger.to_state.state %}
+        {% if ms not in ['unknown','unavailable','none',''] %}
+          {{ ((ms | float) * 1.94384) | round(2) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
 
-    # ---------------------------
-    # WIND SPEED TRUE (kn)
-    # ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.signalk_wind_speed_true
+  sensor:
     - name: "Wind Speed True"
       unique_id: "helper_wind_speed_true"
       unit_of_measurement: "kn"
       state: >
-        {% set ms = states('sensor.signalk_wind_speed_true') %}
-        {{ ((ms | float) * 1.94384) | round(2) }}
+        {% set ms = trigger.to_state.state %}
+        {% if ms not in ['unknown','unavailable','none',''] %}
+          {{ ((ms | float) * 1.94384) | round(2) }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}

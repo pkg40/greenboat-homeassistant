@@ -33,14 +33,6 @@ config:
       cards:
       - heading: Navigation
         type: heading
-      - color: purple
-        entity: sensor.cog_true
-        features:
-        - type: trend-graph
-        features_position: bottom
-        show_entity_picture: true
-        type: tile
-        vertical: true
       - cards:
         - entity: sensor.sog
           max: 20
@@ -65,6 +57,19 @@ config:
           type: gauge
           unit: kn
         type: horizontal-stack
+      - compass:
+          north:
+            show: true
+        header:
+          title:
+            value: COG
+        indicator_sensors:
+        - indicator:
+            image: arrow_outward
+          sensor: sun.sun
+        type: custom:compass-card
+        value_sensors:
+        - sensor: sensor.signalk_cog_true
       column_span: 1
       type: grid
     - background:
@@ -223,3 +228,163 @@ config:
       type: grid
     title: Navigational
     type: sections
+  - cards:
+    - subtitle: Start & House Status
+      title: Boat Batteries
+      type: custom:mushroom-title-card
+    - cards:
+      - area: system
+        color: '{% set s = states(''sensor.start_battery_state'') %} {% if s == ''charging''
+          %} green {% elif s == ''resting'' %} blue {% elif s == ''discharging'' %}
+          orange {% elif s == ''low'' %} yellow {% elif s == ''veryLow'' %} red {%
+          elif s == ''disconnected'' %} grey {% else %} grey {% endif %}
+
+          '
+        entity: sensor.system_12v_battery_monitor_starting_battery_voltage
+        features_position: bottom
+        icon: mdi:car-battery
+        primary: Start Battery
+        secondary: "{% set v = states('sensor.system_12v_battery_monitor_starting_battery_voltage')\
+          \ %} {% if v not in ['unknown','unavailable','none',''] %}\n  {{ \"%.2f\"\
+          \ | format(v | float) }}\u202FV \u2014 {{ states('sensor.start_battery_state')\
+          \ | title }}\n{% else %}\n  --\u202FV \u2014 Unknown\n{% endif %}\n"
+        type: custom:mushroom-template-card
+      - area: system
+        color: '{% set s = states(''sensor.house_battery_state'') %} {% if s == ''charging''
+          %} green {% elif s == ''resting'' %} blue {% elif s == ''discharging'' %}
+          orange {% elif s == ''low'' %} yellow {% elif s == ''veryLow'' %} red {%
+          elif s == ''disconnected'' %} grey {% else %} grey {% endif %}
+
+          '
+        entity: sensor.system_12v_battery_monitor_house_battery_voltage
+        features_position: bottom
+        icon: mdi:car-battery
+        primary: House Battery
+        secondary: "{% set v = states('sensor.system_12v_battery_monitor_house_battery_voltage')\
+          \ %} {% if v not in ['unknown','unavailable','none',''] %}\n  {{ \"%.2f\"\
+          \ | format(v | float) }}\u202FV \u2014 {{ states('sensor.house_battery_state')\
+          \ | title }}\n{% else %}\n  --\u202FV \u2014 Unknown\n{% endif %}\n"
+        type: custom:mushroom-template-card
+      type: horizontal-stack
+    - cards:
+      - card:
+          color: blue
+          features_position: bottom
+          icon: mdi:power-plug-off
+          primary: Starting Battery is Not Charging
+          secondary: Check alternator or charger
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.start_battery_state
+          state_not: charging
+        - condition: state
+          entity: sensor.start_battery_state
+          state_not: disconnected
+        type: conditional
+      - card:
+          color: yellow
+          features_position: bottom
+          icon: mdi:key
+          primary: Starting Battery is Low
+          secondary: Start the engine while you can
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.start_battery_state
+          state: low
+        type: conditional
+      - card:
+          color: red
+          features_position: bottom
+          icon: mdi:battery-10
+          primary: Starting Battery Very Low
+          secondary: Start engine immediately
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.start_battery_state
+          state: veryLow
+        type: conditional
+      - card:
+          color: grey
+          features_position: bottom
+          icon: mdi:not-equal-variant
+          primary: No Start Battery!
+          secondary: Check connections
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.start_battery_state
+          state: disconnected
+        type: conditional
+      - card:
+          color: blue
+          features_position: bottom
+          icon: mdi:power-plug-off
+          primary: House Battery is Not Charging
+          secondary: Check charger or solar input
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.house_battery_state
+          state_not: charging
+        - condition: state
+          entity: sensor.house_battery_state
+          state_not: disconnected
+        type: conditional
+      - card:
+          color: yellow
+          features_position: bottom
+          icon: mdi:battery-30
+          primary: House Battery Running Low
+          secondary: Reduce instrument usage
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.house_battery_state
+          state: low
+        type: conditional
+      - card:
+          color: red
+          features_position: bottom
+          icon: mdi:battery-10
+          primary: House Battery Very Low
+          secondary: Turn off instruments
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.house_battery_state
+          state: veryLow
+        type: conditional
+      - card:
+          color: grey
+          features_position: bottom
+          icon: mdi:not-equal-variant
+          primary: No House Battery!
+          secondary: Check connections
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.house_battery_state
+          state: disconnected
+        type: conditional
+      title: Messages
+      type: vertical-stack
+    - entity: sensor.battery_system_status
+      icon: mdi:car-battery
+      icon_color: '{% set s = states(''sensor.battery_system_status'') %} {% if s
+        in [''charging'',''start_charging'',''house_charging''] %} green {% elif s
+        == ''resting'' %} blue {% elif s == ''discharging'' %} orange {% elif s in
+        [''low''] %} yellow {% elif s in [''critical''] %} red {% elif ''disconnected''
+        in s %} grey {% else %} purple {% endif %}
+
+        '
+      primary: Battery System
+      secondary: '{{ states(''sensor.battery_system_status'') | replace(''_'','' '')
+        | title }}'
+      type: custom:mushroom-template-card
+    icon: mdi:car-battery
+    path: test
+    title: test
+    type: masonry

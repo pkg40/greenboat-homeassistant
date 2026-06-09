@@ -1,0 +1,98 @@
+# ============================
+# INA3221 BATTERY HELPERS (Trigger-Based)
+# Keeps last valid value
+# ============================
+
+# ---------------------------
+# START BATTERY STATE
+# ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.system_12v_battery_monitor_starting_battery_voltage
+  sensor:
+    - name: "Start Battery State"
+      unique_id: "helper_start_battery_state"
+      state: >
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {% set v = v | float %}
+          {% if v < 0.5 %}
+            disconnected
+          {% elif v < 11.2 %}
+            veryLow
+          {% elif v < 11.8 %}
+            low
+          {% elif v > 13.0 %}
+            charging
+          {% elif v > 12.4 %}
+            resting
+          {% else %}
+            discharging
+          {% endif %}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
+
+# ---------------------------
+# HOUSE BATTERY STATE
+# ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.system_12v_battery_monitor_house_battery_voltage
+  sensor:
+    - name: "House Battery State"
+      unique_id: "helper_house_battery_state"
+      state: >
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {% set v = v | float %}
+          {% if v < 4 %}
+            disconnected
+          {% elif v < 11.2 %}
+            veryLow
+          {% elif v < 11.8 %}
+            low
+          {% elif v > 13.0 %}
+            charging
+          {% elif v > 12.4 %}
+            resting
+          {% else %}
+            discharging
+          {% endif %}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
+
+# ---------------------------
+# START BATTERY LOW
+# ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.system_12v_battery_monitor_starting_battery_voltage
+  binary_sensor:
+    - name: "Start Battery Low"
+      unique_id: "helper_start_battery_low"
+      state: >
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {{ (v | float) < 12.0 }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}
+
+# ---------------------------
+# HOUSE BATTERY LOW
+# ---------------------------
+- trigger:
+    - platform: state
+      entity_id: sensor.system_12v_battery_monitor_house_battery_voltage
+  binary_sensor:
+    - name: "House Battery Low"
+      unique_id: "helper_house_battery_low"
+      state: >
+        {% set v = trigger.to_state.state %}
+        {% if v not in ['unknown','unavailable','none',''] %}
+          {{ (v | float) < 12.0 }}
+        {% else %}
+          {{ this.state }}
+        {% endif %}

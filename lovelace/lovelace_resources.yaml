@@ -5,3 +5,6 @@ items:
 - id: aa7a0f9cf4024cd38ab1d86365aacfbf
   type: module
   url: /hacsfiles/compass-card/compass-card.js?hacstag=286038496350
+- id: b32ab2f1d5c64cca855e04fdf0eaf904
+  type: module
+  url: /hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511

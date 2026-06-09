@@ -74,13 +74,13 @@ recorder:
 #   DIRECTORY-BASED INCLUDES
 # ============================
 
+
 # LIST-BASED DOMAINS
 automation: !include_dir_merge_list automations/
 scene: !include_dir_merge_list scenes/
 template: !include_dir_merge_list templates/
 sensor: !include_dir_merge_list sensors/
 binary_sensor: !include_dir_merge_list binary_sensors/
-
 # DICTIONARY-BASED DOMAINS
 script: !include_dir_merge_named scripts/
 #rest: !include_dir_merge_named rest_commands/
