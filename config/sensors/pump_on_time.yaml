@@ -1,0 +1,127 @@
+- platform: history_stats
+  name: Pump 1 On Time This Hour
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time Today
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time This Week
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) - timedelta(days=now().weekday()) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time This Month
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(day=1, hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time This Hour
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time Today
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time This Week
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) - timedelta(days=now().weekday()) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 1 On Time This Month
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_1_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(day=1, hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 2 On Time This Hour
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_2_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 2 On Time Today
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_2_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 2 On Time This Week
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_2_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) - timedelta(days=now().weekday()) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 2 On Time This Month
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_2_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(day=1, hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 2 On Time This Hour
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_2_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 3 On Time Today
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_3_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 3 On Time This Week
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_3_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) - timedelta(days=now().weekday()) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Pump 3 On Time This Month
+  entity_id: binary_sensor.system_pump_switch_sensor_pump_3_on
+  state: "on"
+  type: time
+  start: "{{ now().replace(day=1, hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"

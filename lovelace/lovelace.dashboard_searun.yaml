@@ -186,11 +186,229 @@ config:
       type: grid
     title: Main
     type: sections
-  - icon: mdi:view-dashboard-variant
+  - cards: []
+    icon: mdi:view-dashboard-variant
     max_columns: 4
     path: system
     sections:
-    - cards: []
+    - cards:
+      - cards:
+        - title: Pumps
+          type: custom:mushroom-title-card
+        - cards:
+          - cards:
+            - card_mod:
+                style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_1_on','on')\
+                  \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid var(--c);\n\
+                  \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+                  \  border-radius: 12px;\n  padding: 10px 12px;\n}\n"
+              color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_1_on'',''on'')
+                %} {{ ''amber'' if on else ''gray'' }}
+
+                '
+              icon: mdi:pump
+              primary: Pump 1
+              secondary: 'Cycles: {{ states(''sensor.system_pump_switch_sensor_pump_1_cycles'')
+                | int }}
+
+                '
+              type: custom:mushroom-template-card
+            - card:
+                card_mod:
+                  style: "ha-card {\n  background-color: color-mix(in srgb, red 10%,\
+                    \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
+                    }\n"
+                features_position: bottom
+                multiline_secondary: true
+                secondary: '{% set today = states(''sensor.pump_1_on_time_today'')
+                  | float(0) %}
+
+                  {% set week = states(''sensor.pump_1_on_time_this_week'') | float(0)
+                  %}
+
+                  {% set today_h = (today * 60) // 60 %}
+
+                  {% set today_m = (today * 60) % 60 %}
+
+                  {% set week_h = (week * 60) // 60 %}
+
+                  {% set week_m = (week * 60) % 60 %}
+
+                  Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
+                  }} h
+
+                  Week: {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m) }}
+                  h
+
+                  '
+                type: custom:mushroom-template-card
+              conditions:
+              - condition: state
+                entity: binary_sensor.pump_1_high_runtime
+                state: 'on'
+              type: conditional
+            type: vertical-stack
+          - cards:
+            - card_mod:
+                style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_2_on','on')\
+                  \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid var(--c);\n\
+                  \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+                  \  border-radius: 12px;\n  padding: 10px 12px;\n}\n"
+              color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_2_on'',''on'')
+                %} {{ ''amber'' if on else ''gray'' }}
+
+                '
+              icon: mdi:pump
+              primary: Pump 2
+              secondary: 'Cycles: {{ states(''sensor.system_pump_switch_sensor_pump_2_cycles'')
+                | int }}
+
+                '
+              type: custom:mushroom-template-card
+            - card:
+                card_mod:
+                  style: "ha-card {\n  background-color: color-mix(in srgb, red 10%,\
+                    \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
+                    }\n"
+                features_position: bottom
+                multiline_secondary: true
+                secondary: '{% set today = states(''sensor.pump_2_on_time_today'')
+                  | float(0) %}
+
+                  {% set week = states(''sensor.pump_2_on_time_this_week'') | float(0)
+                  %}
+
+                  {% set today_h = (today * 60) // 60 %}
+
+                  {% set today_m = (today * 60) % 60 %}
+
+                  {% set week_h = (week * 60) // 60 %}
+
+                  {% set week_m = (week * 60) % 60 %}
+
+                  Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
+                  }} h
+
+                  Week: {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m) }}
+                  h
+
+                  '
+                type: custom:mushroom-template-card
+              conditions:
+              - condition: state
+                entity: binary_sensor.pump_2_high_runtime
+                state: 'on'
+              type: conditional
+            type: vertical-stack
+          - cards:
+            - card_mod:
+                style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_3_on','on')\
+                  \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid var(--c);\n\
+                  \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+                  \  border-radius: 12px;\n  padding: 10px 12px;\n}\n"
+              color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_3_on'',''on'')
+                %} {{ ''amber'' if on else ''gray'' }}
+
+                '
+              icon: mdi:pump
+              primary: Pump 3
+              secondary: 'Cycles: {{ states(''sensor.system_pump_switch_sensor_pump_3_cycles'')
+                | int }}
+
+                '
+              type: custom:mushroom-template-card
+            - card:
+                card_mod:
+                  style: "ha-card {\n  background-color: color-mix(in srgb, red 10%,\
+                    \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
+                    }\n"
+                features_position: bottom
+                multiline_secondary: true
+                secondary: '{% set today = states(''sensor.pump_3_on_time_today'')
+                  | float(0) %}
+
+                  {% set week = states(''sensor.pump_3_on_time_this_week'') | float(0)
+                  %}
+
+                  {% set today_h = (today * 60) // 60 %}
+
+                  {% set today_m = (today * 60) % 60 %}
+
+                  {% set week_h = (week * 60) // 60 %}
+
+                  {% set week_m = (week * 60) % 60 %}
+
+                  Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
+                  }} h
+
+                  Week: {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m) }}
+                  h
+
+                  '
+                type: custom:mushroom-template-card
+              conditions:
+              - condition: state
+                entity: binary_sensor.pump_3_high_runtime
+                state: 'on'
+              type: conditional
+            type: vertical-stack
+          type: horizontal-stack
+        - title: Batteries
+          type: custom:mushroom-title-card
+        - cards:
+          - area: system
+            card_mod:
+              style: "ha-card {\n  --c: {% set s = states('sensor.start_battery_state')\
+                \ %}\n    {% if s == 'charging' %} green\n    {% elif s == 'resting'\
+                \ %} blue\n    {% elif s == 'discharging' %} orange\n    {% elif s\
+                \ == 'low' %} yellow\n    {% elif s == 'veryLow' %} red\n    {% elif\
+                \ s == 'disconnected' %} grey\n    {% else %} grey\n    {% endif %};\n\
+                \  border: 3px solid var(--c);\n  background-color: color-mix(in srgb,\
+                \ var(--c) 10%, transparent);              border-radius: 12px;\n\
+                }\n"
+            entity: sensor.system_12v_battery_monitor_starting_battery_voltage
+            features_position: bottom
+            icon: mdi:car-battery
+            icon_color: '{% set s = states(''sensor.start_battery_state'') %} {% if
+              s == ''charging'' %} green {% elif s == ''resting'' %} blue {% elif
+              s == ''discharging'' %} orange {% elif s == ''low'' %} yellow {% elif
+              s == ''veryLow'' %} red {% elif s == ''disconnected'' %} grey {% else
+              %} grey {% endif %}
+
+              '
+            primary: Start Battery
+            secondary: "{% set v = states('sensor.system_12v_battery_monitor_starting_battery_voltage')\
+              \ %} {% if v not in ['unknown','unavailable','none',''] %}\n  {{ \"\
+              %.2f\" | format(v | float) }}\u202FV \u2014 {{ states('sensor.start_battery_state')\
+              \ | title }}\n{% else %}\n  --\u202FV \u2014 Unknown\n{% endif %}\n"
+            type: custom:mushroom-template-card
+          - area: system
+            card_mod:
+              style: "ha-card {\n  --c: {% set s = states('sensor.house_battery_state')\
+                \ %}\n    {% if s == 'charging' %} green\n    {% elif s == 'resting'\
+                \ %} blue\n    {% elif s == 'discharging' %} orange\n    {% elif s\
+                \ == 'low' %} yellow\n    {% elif s == 'veryLow' %} red\n    {% elif\
+                \ s == 'disconnected' %} grey\n    {% else %} grey\n    {% endif %};\n\
+                \  border: 3px solid var(--c);\n  background-color: color-mix(in srgb,\
+                \ var(--c) 10%, transparent);\n  border-radius: 12px;\n}\n"
+            entity: sensor.system_12v_battery_monitor_house_battery_voltage
+            features_position: bottom
+            icon: mdi:home-battery
+            icon_color: '{% set s = states(''sensor.house_battery_state'') %} {% if
+              s == ''charging'' %} green {% elif s == ''resting'' %} blue {% elif
+              s == ''discharging'' %} orange {% elif s == ''low'' %} yellow {% elif
+              s == ''veryLow'' %} red {% elif s == ''disconnected'' %} grey {% else
+              %} grey {% endif %}
+
+              '
+            primary: House Battery
+            secondary: "{% set v = states('sensor.system_12v_battery_monitor_house_battery_voltage')\
+              \ %} {% if v not in ['unknown','unavailable','none',''] %}\n  {{ \"\
+              %.2f\" | format(v | float) }}\u202FV \u2014 {{ states('sensor.house_battery_state')\
+              \ | title }}\n{% else %}\n  --\u202FV \u2014 Unknown\n{% endif %}\n"
+            type: custom:mushroom-template-card
+          type: horizontal-stack
+        type: vertical-stack
       type: grid
     title: System
     type: sections
@@ -371,20 +589,203 @@ config:
         type: conditional
       title: Messages
       type: vertical-stack
-    - entity: sensor.battery_system_status
-      icon: mdi:car-battery
-      icon_color: '{% set s = states(''sensor.battery_system_status'') %} {% if s
-        in [''charging'',''start_charging'',''house_charging''] %} green {% elif s
-        == ''resting'' %} blue {% elif s == ''discharging'' %} orange {% elif s in
-        [''low''] %} yellow {% elif s in [''critical''] %} red {% elif ''disconnected''
-        in s %} grey {% else %} purple {% endif %}
-
-        '
-      primary: Battery System
-      secondary: '{{ states(''sensor.battery_system_status'') | replace(''_'','' '')
-        | title }}'
-      type: custom:mushroom-template-card
     icon: mdi:car-battery
     path: test
     title: test
     type: masonry
+  - cards:
+    - cards:
+      - title: Pump System Status
+        type: custom:mushroom-title-card
+      - cards:
+        - color: '{{ ''green'' if is_state(''binary_sensor.system_pump_switch_sensor_pump_1_on'',''on'')
+            else ''grey'' }}
+
+            '
+          features_position: bottom
+          icon: mdi:pump
+          multiline_secondary: true
+          primary: Pump 1
+          secondary: 'Cycles: {{ states(''sensor.system_pump_switch_sensor_pump_1_cycles'')
+            }}
+
+            Today: {{ states(''sensor.pump_1_on_time_today'') }} h
+
+            Week: {{ states(''sensor.pump_1_on_time_this_week'') }} h
+
+            Month: {{ states(''sensor.pump_1_on_time_this_month'') }} h
+
+            '
+          type: custom:mushroom-template-card
+        - color: '{{ ''green'' if is_state(''binary_sensor.system_pump_switch_sensor_pump_2_on'',''on'')
+            else ''grey'' }}
+
+            '
+          features_position: bottom
+          icon: mdi:pump
+          multiline_secondary: true
+          primary: Pump 2
+          secondary: 'Cycles: {{ states(''sensor.system_pump_switch_sensor_pump_2_cycles'')
+            }}   Today: {{ states(''sensor.pump_2_on_time_today'') }} h   Week: {{
+            states(''sensor.pump_2_on_time_this_week'') }} h   Month: {{ states(''sensor.pump_2_on_time_this_month'')
+            }} h
+
+            '
+          type: custom:mushroom-template-card
+        - color: '{{ ''green'' if is_state(''binary_sensor.system_pump_switch_sensor_pump_3_on'',''on'')
+            else ''grey'' }}
+
+            '
+          features_position: bottom
+          icon: mdi:pump
+          multiline_secondary: true
+          primary: Pump 3
+          secondary: 'Cycles: {{ states(''sensor.system_pump_switch_sensor_pump_3_cycles'')
+            }}   Today: {{ states(''sensor.pump_3_on_time_today'') }} h   Week: {{
+            states(''sensor.pump_3_on_time_this_week'') }} h   Month: {{ states(''sensor.pump_3_on_time_this_month'')
+            }} h
+
+            '
+          type: custom:mushroom-template-card
+        type: horizontal-stack
+      - tabs:
+        - attributes:
+            icon: mdi:pump
+            label: Pump 1
+          card:
+            apex_config:
+              yaxis:
+              - decimalsInFloat: 0
+                id: '0'
+                max: 1
+                min: 0
+                title:
+                  text: On/Off
+              - id: '1'
+                opposite: true
+                title:
+                  text: Total Runtime (s)
+            graph_span: 24h
+            header:
+              title: "Pump 1 \u2014 On/Off + Runtime"
+            now:
+              show: true
+            series:
+            - color: green
+              entity: binary_sensor.system_pump_switch_sensor_pump_1_on
+              name: Pump 1 On/Off
+              opacity: 0.4
+              stroke_width: 2
+              transform: 'return x === ''on'' ? 1 : 0;'
+              type: area
+              yaxis_id: '0'
+            - color: blue
+              entity: sensor.system_pump_switch_sensor_pump_1_total_on_time
+              name: Pump 1 Total Runtime
+              stroke_width: 3
+              type: line
+              yaxis_id: '1'
+            span:
+              start: day
+            style: "ha-card {\n  height: 400px;\n}\n"
+            type: custom:apexcharts-card
+        - attributes:
+            icon: mdi:pump
+            label: Pump 2
+          card:
+            apex_config:
+              yaxis:
+              - decimalsInFloat: 0
+                id: '0'
+                max: 1
+                min: 0
+                title:
+                  text: On/Off
+              - id: '1'
+                opposite: true
+                title:
+                  text: Total Runtime (s)
+            graph_span: 24h
+            header:
+              title: "Pump 2 \u2014 On/Off + Runtime"
+            now:
+              show: true
+            series:
+            - color: green
+              entity: binary_sensor.system_pump_switch_sensor_pump_2_on
+              name: Pump 2 On/Off
+              opacity: 0.4
+              stroke_width: 2
+              transform: 'return x === ''on'' ? 1 : 0;'
+              type: area
+              yaxis_id: '0'
+            - color: blue
+              entity: sensor.system_pump_switch_sensor_pump_2_total_on_time
+              name: Pump 2 Total Runtime
+              stroke_width: 3
+              type: line
+              yaxis_id: '1'
+            span:
+              start: day
+            style: "ha-card {\n  height: 400px;\n}\n"
+            type: custom:apexcharts-card
+        - attributes:
+            icon: mdi:pump
+            label: Pump 3
+          card:
+            apex_config:
+              yaxis:
+              - decimalsInFloat: 0
+                id: '0'
+                max: 1
+                min: 0
+                title:
+                  text: On/Off
+              - id: '1'
+                opposite: true
+                title:
+                  text: Total Runtime (s)
+            graph_span: 24h
+            header:
+              title: "Pump 3 \u2014 On/Off + Runtime"
+            now:
+              show: true
+            series:
+            - color: green
+              entity: binary_sensor.system_pump_switch_sensor_pump_3_on
+              name: Pump 3 On/Off
+              opacity: 0.4
+              stroke_width: 2
+              transform: 'return x === ''on'' ? 1 : 0;'
+              type: area
+              yaxis_id: '0'
+            - color: blue
+              entity: sensor.system_pump_switch_sensor_pump_3_total_on_time
+              name: Pump 3 Total Runtime
+              stroke_width: 3
+              type: line
+              yaxis_id: '1'
+            span:
+              start: day
+            style: "ha-card {\n  height: 400px;\n}\n"
+            type: custom:apexcharts-card
+        type: custom:tabbed-card
+      type: vertical-stack
+    icon: mdi:water-pump
+    title: Pump Status
+    type: masonry
+  - icon: mdi:puzzle
+    max_columns: 4
+    path: status
+    sections:
+    - cards:
+      - title: System Status
+        type: custom:mushroom-title-card
+      type: grid
+    - cards:
+      - heading: Status
+        heading_style: title
+        type: heading
+      type: grid
+    title: Status
+    type: sections

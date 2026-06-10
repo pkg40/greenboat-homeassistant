@@ -8,3 +8,12 @@ items:
 - id: b32ab2f1d5c64cca855e04fdf0eaf904
   type: module
   url: /hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511
+- id: 52060fe956c1423283eba5c27cbac1b1
+  type: module
+  url: /hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152223
+- id: 787fcfd359c34125a2e327cbdd5f406d
+  type: module
+  url: /hacsfiles/tabbed-card/tabbed-card.js?hacstag=452866308033
+- id: 1f6d4d207cdf4ffd8bfd92c98aa2ee76
+  type: module
+  url: /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524421

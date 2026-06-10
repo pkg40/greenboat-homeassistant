@@ -1,0 +1,29 @@
+- binary_sensor:
+    - name: "Pump 1 High Runtime"
+      unique_id: pump_1_high_runtime
+      state: >
+        {% set today = states('sensor.pump_1_on_time_today') | float(0) %}
+        {% set week  = states('sensor.pump_1_on_time_this_week') | float(0) %}
+        {{ today > (20 / 60) or week > 1 }}
+      icon: mdi:alert
+      device_class: problem
+
+- binary_sensor:
+    - name: "Pump 2 High Runtime"
+      unique_id: pump_2_high_runtime
+      state: >
+        {% set today = states('sensor.pump_2_on_time_today') | float(0) %}
+        {% set week  = states('sensor.pump_2_on_time_this_week') | float(0) %}
+        {{ today > (20 / 60) or week > 1 }}
+      icon: mdi:alert
+      device_class: problem
+
+- binary_sensor:
+    - name: "Pump 3 High Runtime"
+      unique_id: pump_3_high_runtime
+      state: >
+        {% set today = states('sensor.pump_3_on_time_today') | float(0) %}
+        {% set week  = states('sensor.pump_3_on_time_this_week') | float(0) %}
+        {{ today > (20 / 60) or week > 1 }}
+      icon: mdi:alert
+      device_class: problem
