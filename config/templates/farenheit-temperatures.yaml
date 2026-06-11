@@ -1,0 +1,61 @@
+- sensor:
+    - name: "Cabin Temperature F2"
+      unique_id: cabin_temperature_f2
+      unit_of_measurement: "°F"
+      state_class: measurement
+      state: >
+        {% set c = states('sensor.cabin_temperature') | float(0) %}
+        {{ ((c * 9 / 5) + 32) | float | round(1) }}
+
+    - name: "Deck Temperature F"
+      unique_id: deck_temperature_f
+      unit_of_measurement: "°F"
+      state_class: measurement
+      state: >
+        {% set c = states('sensor.deck_temperature') | float(0) %}
+        {{ ((c * 9 / 5) + 32) | round(1) }}
+
+    - name: "Bilge Temperature F"
+      unique_id: bilge_temperature_f
+      unit_of_measurement: "°F"
+      state_class: measurement
+      state: >
+        {% set c = states('sensor.bilge_temperature') | float(0) %}
+        {{ ((c * 9 / 5) + 32) | round(1) }}
+
+- binary_sensor:
+    - name: "Cabin Temperature watch"
+      unique_id: cabin_temperature_watch
+      state: >
+        {% set f = states('sensor.cabin_temperature_f2') | float(0) %}
+        {{ f < 37 }}
+
+    - name: "Cabin Temperature Warning"
+      unique_id: cabin_temperature_warning
+      state: >
+        {% set f = states('sensor.cabin_temperature_f2') | float(0) %}
+        {{ f < 33 }}
+
+    - name: "Deck Temperature watch"
+      unique_id: deck_temperature_watch
+      state: >
+        {% set f = states('sensor.deck_temperature_f') | float(0) %}
+        {{ f < 37 }}
+
+    - name: "Deck Temperature Warning"
+      unique_id: deck_temperature_warning
+      state: >
+        {% set f = states('sensor.deck_temperature_f') | float(0) %}
+        {{ f < 33 }}
+
+    - name: "Bilge Temperature watch"
+      unique_id: bilge_temperature_watch
+      state: >
+        {% set f = states('sensor.bilge_temperature_f') | float(0) %}
+        {{ f < 37 }}
+
+    - name: "Bilge Temperature Warning"
+      unique_id: bilge_temperature_warning
+      state: >
+        {% set f = states('sensor.bilge_temperature_f') | float(0) %}
+        {{ f < 33 }}
