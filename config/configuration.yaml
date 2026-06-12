@@ -36,6 +36,8 @@ homeassistant:
 
 default_config:
 
+stream:
+
 # ============================
 #   LOGGING
 # ============================
@@ -73,7 +75,6 @@ recorder:
 # ============================
 #   DIRECTORY-BASED INCLUDES
 # ============================
-
 
 # LIST-BASED DOMAINS
 automation: !include_dir_merge_list automations/

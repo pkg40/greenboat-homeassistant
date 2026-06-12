@@ -878,13 +878,20 @@ config:
     icon: mdi:water-pump
     title: Pump Status
     type: masonry
-  - icon: mdi:puzzle
+  - badges:
+    - color: primary
+      entity: input_boolean.show_bilge_camera
+      icon: mdi:video-image
+      name: Bilge
+      show_icon: true
+      show_name: true
+      show_state: false
+      type: entity
+    cards: []
+    icon: mdi:puzzle
     max_columns: 4
-    path: status
     sections:
     - cards:
-      - title: System Status
-        type: custom:mushroom-title-card
       - cards:
         - card:
             card_mod:
@@ -903,8 +910,6 @@ config:
           - entity: binary_sensor.sonoff_snzb_05p
             state: 'on'
           type: conditional
-        - title: Pumps
-          type: custom:mushroom-title-card
         - cards:
           - cards:
             - card_mod:
@@ -924,8 +929,8 @@ config:
               type: custom:mushroom-template-card
             - card:
                 card_mod:
-                  style: "ha-card {\n  background-color: color-mix (in srgb, red 10%,\
-                    \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
+                  style: "ha-card {\n  background-color: color-mix(in srgb, orange\
+                    \ 20%, transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
                     }\n"
                 features_position: bottom
                 multiline_secondary: true
@@ -975,8 +980,8 @@ config:
               type: custom:mushroom-template-card
             - card:
                 card_mod:
-                  style: "ha-card {\n  background-color: color-mix(in srgb, red 10%,\
-                    \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
+                  style: "ha-card {\n  background-color: color-mix(in srgb, orange\
+                    \ 20%, transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
                     }\n"
                 features_position: bottom
                 multiline_secondary: true
@@ -1026,8 +1031,8 @@ config:
               type: custom:mushroom-template-card
             - card:
                 card_mod:
-                  style: "ha-card {\n  background-color: color-mix(in srgb, red 10%,\
-                    \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
+                  style: "ha-card {\n  background-color: color-mix(in srgb, orange\
+                    \ 20%, transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n\
                     }\n"
                 features_position: bottom
                 multiline_secondary: true
@@ -1060,8 +1065,53 @@ config:
               type: conditional
             type: vertical-stack
           type: horizontal-stack
-        - title: Batteries
-          type: custom:mushroom-title-card
+        - card:
+            card_mod:
+              style: "ha-card {\n  background-color: color-mix(in srgb, orange 20%,\
+                \ transparent);\n  border: 2px solid orange;\n  border-radius: 6px;\n\
+                \  padding: 0px;\n}\n"
+            color: amber
+            features_position: bottom
+            icon: mdi:alert
+            primary: Bilge Camera Offline
+            type: custom:mushroom-template-card
+          conditions:
+          - condition: state
+            entity: binary_sensor.bilge_cam_online
+            state: 'off'
+          type: conditional
+        - card:
+            card:
+              camera_view: live
+              card_mod:
+                style: "ha-card {\n  border: 3px solid orange;\n  border-radius: 8px;\n\
+                  \  background-color: color-mix(in srgb, red 10%, transparent);\n\
+                  \  padding: 0px;\n}\n"
+              entity: camera.bilge_backyard_cam
+              name: Bilge Video Stream
+              show_state: false
+              type: picture-entity
+            conditions:
+            - condition: state
+              entity: binary_sensor.bilge_cam_online
+              state_not: 'off'
+            type: conditional
+          conditions:
+          - condition: or
+            conditions:
+            - condition: state
+              entity: binary_sensor.pump_1_high_runtime
+              state: 'on'
+            - condition: state
+              entity: binary_sensor.pump_2_high_runtime
+              state: 'on'
+            - condition: state
+              entity: binary_sensor.pump_3_high_runtime
+              state: 'on'
+            - condition: state
+              entity: input_boolean.show_bilge_camera
+              state: 'on'
+          type: conditional
         - cards:
           - area: system
             card_mod:
@@ -1090,14 +1140,15 @@ config:
               \ == 'verylow' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014\
               \ \U0001FAAB!!\n{% elif s == 'low' %}\n    {{ \"%.2f\" | format(v |\
               \ float) }}\u202FV \u2014 \U0001FAAB\n{% elif s == 'discharging' %}\n\
-              \    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \u2B07\uFE0F\n\
-              {% elif s == 'resting' %}\n    {{ \"%.2f\" | format(v | float) }}\u202F\
-              V \u2014 \n{% elif s == 'charging' %}\n    {{ \"%.2f\" | format(v |\
-              \ float) }}\u202FV \u2014 \u26A1\n{% else %} unknown {% endif %}\n"
+              \    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \u2935\n{% elif\
+              \ s == 'resting' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014\
+              \ \n{% elif s == 'charging' %}\n    {{ \"%.2f\" | format(v | float)\
+              \ }}\u202FV \u2014 \u26A1\n{% else %} unknown {% endif %}\n"
             type: custom:mushroom-template-card
           - area: system
             card_mod:
-              style: "ha-card {\n  --c: {% set s = states('sensor.house_battery_state')\
+              style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
+                \ !important;\n  --c: {% set s = states('sensor.house_battery_state')\
                 \ %}\n    {% if s == 'charging' %} green\n    {% elif s == 'resting'\
                 \ %} blue\n    {% elif s == 'discharging' %} orange\n    {% elif s\
                 \ == 'low' %} yellow\n    {% elif s == 'veryLow' %} red\n    {% elif\
@@ -1118,41 +1169,41 @@ config:
             primary: House Battery
             secondary: "{% set v = states('sensor.system_12v_battery_monitor_house_battery_voltage')\
               \ %} {% set s = states('sensor.house_battery_state') %} {% if s == 'disconnected'\
-              \ %}  \u200E \u200E \u200E \u274C\u274C\u274C {% elif s == 'verylow'\
-              \ %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \U0001FAAB\
-              !!\n{% elif s == 'low' %}\n    {{ \"%.2f\" | format(v | float) }}\u202F\
-              V \u2014 \U0001FAAB\n{% elif s == 'discharging' %}\n    {{ \"%.2f\"\
-              \ | format(v | float) }}\u202FV \u2014 \u2B07\uFE0F\n{% elif s == 'resting'\
-              \ %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \n{% elif\
-              \ s == 'charging' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV\
-              \ \u2014 \u26A1\n{% else %} unknown {% endif %}\n"
+              \ %}  \u26D4\u26D4 {% elif s == 'verylow' %}\n    {{ \"%.2f\" | format(v\
+              \ | float) }}\u202FV \u2014 \U0001FAAB!!\n{% elif s == 'low' %}\n  \
+              \  {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \U0001FAAB\n{% elif\
+              \ s == 'discharging' %}\n    {{ \"%.2f\" | format(v | float) }}\u202F\
+              V \u2014 \u21E3\n{% elif s == 'resting' %}\n    {{ \"%.2f\" | format(v\
+              \ | float) }}\u202FV \u2014 \n{% elif s == 'charging' %}\n    {{ \"\
+              %.2f\" | format(v | float) }}\u202FV \u2014 \u26A1\u26A1\n{% else %}\
+              \ unknown {% endif %}\n"
             type: custom:mushroom-template-card
           type: horizontal-stack
-        - title: Cabin
-          type: custom:mushroom-title-card
         - cards:
           - card_mod:
-              style: "ha-card {\n  {% set s = states('binary_sensor.cabin_hatch')\
-                \ %}\n  {% set t = states('binary_sensor.cabin_hatch_tamper') %}\n\
-                \  {% if t == 'on' %}\n    --c: red;\n  {% elif s == 'off' %}\n  \
-                \  --c: green;\n  {% elif s == 'on' %}\n    --c: orange;\n  {% else\
-                \ %}\n    --c: gray;\n  {% endif %}\n  border: 3px solid var(--c);\n\
-                \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
-                \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
+              style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
+                \ !important;\n  {% set s = states('binary_sensor.cabin_hatch') %}\n\
+                \  {% set t = states('binary_sensor.cabin_hatch_tamper') %}\n  {%\
+                \ if t == 'on' %}\n    --c: red;\n  {% elif s == 'off' %}\n    --c:\
+                \ green;\n  {% elif s == 'on' %}\n    --c: orange;\n  {% else %}\n\
+                \    --c: gray;\n  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
+                \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
+                \ 8px;\n  padding: 0px 1px;\n}\n"
             color: "{% set s = states('binary_sensor.cabin_hatch') %} {% set t = states('binary_sensor.cabin_hatch_tamper')\
               \ %} {% if t == 'on' %}\n  orange\n{% elif s == 'off' %}\n  green\n\
               {% elif s == 'on' %}\n  amber\n{% else %}\n  amber\n{% endif %}\n"
             features_position: bottom
             icon: "{% set s = states('binary_sensor.cabin_hatch') %} {% set t = states('binary_sensor.cabin_hatch_tamper')\
-              \ %} {% if t == 'on' %}\n  mdi:window-shutter-alert\n{% elif s == 'off'\
-              \ %}\n    mdi:window-shutter\n{% elif s == 'on' %}\n  mdi:window-shutter-open\n\
+              \ %}  {% if t == 'on' %}\n  mdi:window-shutter-alert\n{% elif s == 'off'\
+              \ %}\n  mdi:window-shutter\n{% elif s == 'on' %}\n  mdi:window-shutter-open\n\
               {% else %}\n  mdi:alert\n{% endif %}\n"
-            primary: Hatch
+            primary: Cabin Hatch
             secondary: "{% set s = states('binary_sensor.cabin_hatch') %} {% set t\
               \ = states('binary_sensor.cabin_hatch_tamper') %} {% if t == 'on' %}\n\
-              \  Tampered\n{% elif s == 'off' %}\n  Closed\n{% elif s == 'on' %}\n\
-              \  Open\n{% else %}\n  Error\n{% endif %}\n"
+              \  tamper\n{% elif s == 'off' %}\n  closed\n{% elif s == 'on' %}\n \
+              \ open\n{% else %}\n  \u26D4\u26D4\n{% endif %}\n"
             type: custom:mushroom-template-card
+            vertical: true
           - card_mod:
               style: "ha-card {\n  {% set t = states('sensor.cabin_temperature_f2')\
                 \ | float(0) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
@@ -1172,12 +1223,14 @@ config:
               '
             features_position: bottom
             icon: mdi:thermometer
-            primary: Temp
+            primary: Cabin Temperature
             secondary: "{% set t = states('sensor.cabin_temperature_f2') | float(0)\
               \ %} {{ t }} \xB0F\n"
             type: custom:mushroom-template-card
+            vertical: true
           - card_mod:
-              style: "ha-card {\n  {% set h = states('sensor.cabin_humidity') | float(0)\
+              style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
+                \ !important;\n  {% set h = states('sensor.cabin_humidity') | float(0)\
                 \ %}\n  {% if h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n\
                 \    --c: green;\n  {% elif h < 75 %}\n    --c: gold;\n  {% else %}\n\
                 \    --c: red;\n  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
@@ -1188,7 +1241,7 @@ config:
               \  amber\n{% else %}\n  red\n{% endif %}\n"
             features_position: bottom
             icon: mdi:water-percent
-            primary: Humidity
+            primary: Cabin Moisture
             secondary: "{% set h = states('sensor.cabin_humidity') | float(0) %} {%\
               \ set t = states('sensor.cabin_temperature_f2') | float(0) %} {# Convert\
               \ F \u2192 C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula for\
@@ -1197,20 +1250,25 @@ config:
               \ / (a - gamma) %} {# Convert back to F #} {% set dp_f = (dp_c * 9/5)\
               \ + 32 %} {{ h | round(0) }}% \u2022 {{ dp_f | round(1) }}\xB0F\n"
             type: custom:mushroom-template-card
+            vertical: true
           - card_mod:
-              style: "ha-card {\n  --c: {% set s = states('binary_sensor.cabin_motion')\
+              style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
+                \ !important;\n  --c: {% set s = states('binary_sensor.cabin_motion')\
                 \ %}\n    {% if s == 'off' %} grey\n    {% else %} gold\n    {% endif\
                 \ %};\n  border: 3px solid var(--c);\n  background-color: color-mix(in\
                 \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px;\n  padding:\
-                \ 0px 1px;\n} \n"
+                \ 0px 1px;\n} \n.container {\n  align-items: center !important;\n\
+                \  gap: 0px !important;\n}\n"
             color: "{% if is_state('binary_sensor.cabin_motion','off') %}\n  grey\n\
               {% else %}\n  amber\n{% endif %}\n"
             features_position: bottom
-            icon: mdi:motion-sensor
-            primary: Motion
-            secondary: "{% if is_state('binary_sensor.cabin_motion','on') %}\n  Motion\
-              \ Detected\n{% else %}\n  No Motion\n{% endif %}\n"
+            icon: "{% if is_state('binary_sensor.cabin_motion','off') %}\n  mdi:motion-sensor-off\n\
+              {% else %}\n  mdi:motion-sensor\n{% endif %}\n"
+            primary: Cabin Motion
+            secondary: "{% if is_state('binary_sensor.cabin_motion','on') %}\n  Motion\n\
+              {% else %}\n  No Motion\n{% endif %}\n"
             type: custom:mushroom-template-card
+            vertical: true
           type: horizontal-stack
         type: vertical-stack
       type: grid

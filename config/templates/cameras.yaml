@@ -1,0 +1,20 @@
+- sensor:
+    - name: "Bilge Cam Online"
+      state: >
+        {% if is_state('camera.bilge_cam', 'streaming') %}
+          Online
+        {% else %}
+          Offline
+        {% endif %}
+    - name: "Deck Cam Online"
+      state: >
+        {% if is_state('camera.deck_cam', 'streaming') %}
+          Online
+        {% else %}
+          Offline
+        {% endif %}
+
+- binary_sensor:
+    - name: "Bilge Cam Online"
+      state: >
+        {{ not is_state('camera.bilge_cam', 'unavailable') }}
