@@ -1,0 +1,94 @@
+
+# SigK nav data has been extracted from sigk server using rest: sensors restful/signalk-navigation.yam
+
+# Select the nav data from phone gps or signalk prferring signalk data
+- sensor:
+    - name: "Nav Latitude"
+      unit_of_measurement: "°"
+      state: >
+        {% set sk = states('sensor.signalk_latitude') %}
+        {% if sk not in ['unknown','unavailable','none','', None] %}
+          {{ sk | float }}
+        {% else %}
+          {{ None }}
+        {% endif %}
+
+    - name: "Nav Longitude"
+      unit_of_measurement: "°"
+      state: >
+        {% set sk = states('sensor.signalk_longitude') %}
+        {% if sk not in ['unknown','unavailable','none','', None] %}
+          {{ sk | float }}
+        {% else %}
+          {{ None }}
+        {% endif %}
+
+    - name: "Nav COG"
+      unit_of_measurement: "°"
+      state: >
+        {% set sk = states('sensor.signalk_cog_true') %}
+        {% if sk not in ['unknown','unavailable','none','', None] %}
+          {{ sk | float }}
+        {% else %}
+          {{ None }}
+        {% endif %}
+
+    - name: "Nav SOG"
+      unit_of_measurement: "kn"
+      state: >
+        {% set sk = states('sensor.signalk_sog') %}
+        {% if sk not in ['unknown','unavailable','none','', None] %}
+          {{ sk | float }}
+        {% else %}
+          {{ None }}
+        {% endif %}
+
+    # indicate source of Nav data
+#    - name: "latitude source"
+#      state: >
+#        {% if states('sensor.signalk_latitude') not in ['unknown','unavailable','none','', None] %}
+#          Signal‑K
+#        {% else %}
+#          Phone
+#        {% endif %}
+
+##    - name: "longitude source"
+#      state: >
+#        {% if states('sensor.signalk_longitude') not in ['unknown','unavailable','none','', None] %}
+#          Signal‑K
+#        {% else %}
+#          Phone
+#        {% endif %}
+
+#    - name: "sog source"
+#      state: >
+#        {% if states('sensor.signalk_sog') not in ['unknown','unavailable','none','', None] %}
+#          Signal‑K
+#        {% else %}
+#          Phone
+#        {% endif %}
+
+#    - name: "cog source"
+#      state: >
+#        {% if states('sensor.signalk_cog') not in ['unknown','unavailable','none','', None] %}
+#          Signal‑K
+#        {% else %}
+#          Phone
+#        {% endif %}
+
+#    - name: "navigation source"
+#      state: >
+#        {% set lat = states('sensor.latitude_source') %}
+#        {% set lon = states('sensor.longitude_source') %}
+#        {% set sog = states('sensor.sog_source') %}
+#        {% set cog = states('sensor.cog_source') %}
+
+#        {% set all = [lat, lon, sog, cog] %}
+
+#        {% if all | select('equalto', 'Signal‑K') | list | count == 4 %}
+#          Signal‑K
+#        {% elif all | select('equalto', 'Phone') | list | count == 4 %}
+#          Phone
+#        {% else %}
+#          Mixed
+#        {% endif %}

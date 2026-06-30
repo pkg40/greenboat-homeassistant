@@ -1,6 +1,6 @@
 - sensor:
-    - name: "Cabin Temperature F2"
-      unique_id: cabin_temperature_f2
+    - name: "Cabin Temperature F"
+      unique_id: cabin_temperature_f
       unit_of_measurement: "°F"
       state_class: measurement
       state: >
@@ -27,13 +27,13 @@
     - name: "Cabin Temperature watch"
       unique_id: cabin_temperature_watch
       state: >
-        {% set f = states('sensor.cabin_temperature_f2') | float(0) %}
+        {% set f = states('sensor.cabin_temperature_f') | float(0) %}
         {{ f < 37 }}
 
     - name: "Cabin Temperature Warning"
       unique_id: cabin_temperature_warning
       state: >
-        {% set f = states('sensor.cabin_temperature_f2') | float(0) %}
+        {% set f = states('sensor.cabin_temperature_f') | float(0) %}
         {{ f < 33 }}
 
     - name: "Deck Temperature watch"

@@ -1,0 +1,46 @@
+
+#########################################################################
+# Check phone against defined zones
+#########################################################################
+- binary_sensor:
+    - name: "In Slip 4A"
+      state: >
+        {{ is_state('device_tracker.pixel_4a_geolocation', 'berth') }}
+    - name: "In Marina 4A"
+      state: >
+        {{ is_state('device_tracker.pixel_4a_geolocation', 'marina') }}
+
+########################################################################
+# sensor for stale data. Means boat has not moved or phone is sleeping
+#########################################################################
+- sensor:
+    - name: "Pixel 4a Latitude"
+      unit_of_measurement: "°"
+      state: >
+        {% set loc = state_attr('sensor.pixel_4a_geocoded_location', 'location') %}
+        {% if loc is iterable and loc|length == 2 and loc[0] is not none %}
+          {{ loc[0] }}
+        {% else %}
+          {{ states('sensor.pixel_4a_latitude') }}
+        {% endif %}
+
+########################################################################
+# sensor for stale data. Means boat has not moved or phone is sleeping
+#########################################################################
+    - name: "Pixel 4a Longitude"
+      unit_of_measurement: "°"
+      state: >
+        {% set loc = state_attr('sensor.pixel_4a_geocoded_location', 'location') %}
+        {% if loc is iterable and loc|length == 2 and loc[1] is not none %}
+          {{ loc[1] }}
+        {% else %}
+          {{ states('sensor.pixel_4a_longitude') }}
+        {% endif %}
+
+########################################################################
+# sensor for stale data. Means boat has not moved or phone is sleeping
+#########################################################################
+    - name: "Pixel 4a GPS Stale"
+      state: >
+        {% set last = states.sensor.pixel_4a_geocoded_location.last_changed %}
+        {{ (now() - last).total_seconds() > 600 }}

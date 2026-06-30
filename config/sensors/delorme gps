@@ -1,0 +1,4 @@
+  - platform: serial
+    name: "gps_serial"
+    port: /dev/serial/by-id/usb-DeLorme_Publishing_DeLorme_USB_Earthmate-if00-port0
+    baudrate: 4800

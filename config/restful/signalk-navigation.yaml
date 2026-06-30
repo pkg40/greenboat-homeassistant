@@ -26,10 +26,14 @@
     Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "Raw COG True"
-      unique_id: "raw_cog_true"
-      value_template: "{{ value_json.value | float }}"
-      unit_of_measurement: "rad"
+    - name: "Signalk COG True"
+      unique_id: "signalk_cog_true"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
 
 # COG Magnetic
 - resource: !secret signalk_nav_cog_mag
@@ -37,9 +41,14 @@
     Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "Raw COG Magnetic"
-      unique_id: "raw_cog_mag"
-      value_template: "{{ value_json.value | float }}"
+    - name: "Signalk COG Magnetic"
+      unique_id: "signalk_cog_mag"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "rad"
 
 # Heading True
@@ -48,10 +57,14 @@
     Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "Raw Heading True"
-      unique_id: "raw_hdg_true"
-      value_template: "{{ value_json.value | float }}"
-      unit_of_measurement: "rad"
+    - name: "Signalk Heading True"
+      unique_id: "signalk_hdg_true"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
 
 # Heading Magnetic
 - resource: !secret signalk_nav_hdg_mag
@@ -59,9 +72,14 @@
     Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "Raw Heading Magnetic"
-      unique_id: "raw_hdg_mag"
-      value_template: "{{ value_json.value | float }}"
+    - name: "Signalk Heading Magnetic"
+      unique_id: "signalk_hdg_mag"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "rad"
 
 # ── SPEEDS — raw m/s, no conversion ───────────────────────────
@@ -72,9 +90,14 @@
     Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "Raw SOG"
-      unique_id: "raw_sog"
-      value_template: "{{ value_json.value | float }}"
+    - name: "Signalk SOG"
+      unique_id: "signalk_sog"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "m/s"
 
 # STW
@@ -83,7 +106,12 @@
     Authorization: !secret signalk_token
   scan_interval: 5
   sensor:
-    - name: "Raw STW"
-      unique_id: "raw_stw"
-      value_template: "{{ value_json.value | float }}"
+    - name: "Signalk STW"
+      unique_id: "signalk_stw"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "m/s"

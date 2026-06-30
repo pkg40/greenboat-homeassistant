@@ -1,0 +1,27 @@
+- alias: "Anchorage Set Button Pressed"
+  id: 818bc37f-7be4-4b7a-909c-74f8cbaf87c1
+  trigger:
+    - platform: state
+      entity_id: input_button.anchorage_set_button
+  action:
+    - service: script.set_anchorage_here
+
+- alias: "Anchorage Reset Button Pressed"
+  id: a5fb92d5-8957-4d04-ad40-d733cc3da881
+  trigger:
+    - platform: state
+      entity_id: input_button.anchorage_reset_button
+  action:
+    - service: script.reset_anchorage
+
+- alias: "Anchorage Distance Button Pressed"
+  id: 411c66a5-508e-44bc-84d2-e7838d3e234d
+  trigger:
+    - platform: state
+      entity_id: input_button.anchorage_distance_button
+  action:
+    - service: browser_mod.toast
+      data:
+        message: >
+          Distance to anchorage:
+          {{ states('sensor.anchorage_distance') }} m

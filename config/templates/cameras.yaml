@@ -6,6 +6,7 @@
         {% else %}
           Offline
         {% endif %}
+        
     - name: "Deck Cam Online"
       state: >
         {% if is_state('camera.deck_cam', 'streaming') %}
@@ -18,3 +19,6 @@
     - name: "Bilge Cam Online"
       state: >
         {{ not is_state('camera.bilge_cam', 'unavailable') }}
+    - name: "Deck Cam Online"
+      state: >
+        {{ not is_state('camera.deck_cam', 'unavailable') }}

@@ -14,3 +14,7 @@ Poeschl Home Assistant Add-ons:
   maintainer: Poeschl <Poeschl@users.noreply.github.com>
   slug: 68413af6
   source: https://github.com/Poeschl-HomeAssistant-Addons/repository
+"Poeschl Home Assistant Add-ons (\U0001F6A8 These addons are moved!)":
+  maintainer: Poeschl <Poeschl@users.noreply.github.com>
+  slug: 243ffc37
+  source: https://github.com/Poeschl/Hassio-Addons

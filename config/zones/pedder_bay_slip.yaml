@@ -1,0 +1,5 @@
+- name: Pedder Bay Slip
+  latitude: 48.347218
+  longitude: -123.569192
+  radius: 20
+  icon: mdi:map-marker

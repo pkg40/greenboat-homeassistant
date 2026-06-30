@@ -1,0 +1,14 @@
+alias: Boat Left Marina
+trigger:
+  - platform: state
+    entity_id: device_tracker.pixel_4a
+    from: "marina"
+action:
+  - service: homeassistant.turn_on
+    target:
+      entity_id: binary_sensor.boat_left_marina
+  - service: notify.mobile_app_pixel_4a
+    data:
+      title: "Boat Alert"
+      message: "The boat has left the Marina."
+mode: single

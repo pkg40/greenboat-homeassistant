@@ -9,5 +9,10 @@
   sensor:
     - name: "SignalK VMG"
       unique_id: "signalk_vmg"
-      value_template: "{{ value_json.value }}"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "m/s"

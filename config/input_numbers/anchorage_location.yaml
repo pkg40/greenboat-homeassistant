@@ -1,0 +1,15 @@
+anchorage_latitude:
+  name: Anchorage Latitude
+  min: -90
+  max: 90
+  step: 0.000001
+  mode: box
+  initial: 48.45037
+
+anchorage_longitude:
+  name: Anchorage Longitude
+  min: -180
+  max: 180
+  step: 0.000001
+  mode: box
+  initial: -123.569192

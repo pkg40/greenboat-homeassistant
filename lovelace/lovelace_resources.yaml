@@ -1,13 +1,10 @@
 items:
 - id: ee6b621dd14d42fbb805f875d4070479
   type: module
-  url: /hacsfiles/custom-sidebar/custom-sidebar.js?hacstag=7377802181500
+  url: /hacsfiles/custom-sidebar/custom-sidebar.js?hacstag=7377802181510
 - id: aa7a0f9cf4024cd38ab1d86365aacfbf
   type: module
   url: /hacsfiles/compass-card/compass-card.js?hacstag=286038496350
-- id: b32ab2f1d5c64cca855e04fdf0eaf904
-  type: module
-  url: /hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511
 - id: 52060fe956c1423283eba5c27cbac1b1
   type: module
   url: /hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152223
@@ -17,3 +14,9 @@ items:
 - id: 1f6d4d207cdf4ffd8bfd92c98aa2ee76
   type: module
   url: /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524421
+- id: 90f3b04bb59e4352b438c166041bf82b
+  type: module
+  url: /hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511
+- id: 5389be844326438b86a718786c82ae7e
+  type: module
+  url: /hacsfiles/button-card/button-card.js?hacstag=146194325701

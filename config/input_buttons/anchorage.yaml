@@ -1,0 +1,11 @@
+anchorage_set_button:
+  name: Set Anchorage
+  icon: mdi:anchor
+
+anchorage_reset_button:
+  name: Reset Anchorage
+  icon: mdi:anchor-remove
+
+anchorage_distance_button:
+  name: Distance to Anchorage
+  icon: mdi:map-marker-distance

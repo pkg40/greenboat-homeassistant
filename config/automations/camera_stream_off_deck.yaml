@@ -1,0 +1,13 @@
+alias: Auto‑reset Show Deck Camera after 10 minutes
+description: Turns off the input_boolean after it has been on for 10 minutes.
+trigger:
+  - platform: state
+    entity_id: input_boolean.show_deck_camera
+    from: "off"
+    to: "on"
+action:
+  - delay: "00:10:00"
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.show_deck_camera
+mode: restart

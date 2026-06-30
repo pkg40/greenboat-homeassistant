@@ -1,0 +1,58 @@
+- sensor:
+    - name: "USB Latitude"
+      unique_id: usb_latitude
+      unit_of_measurement: "°"
+      state: >
+        {{states('sensor.gp_gll_1_decimal') | float }}
+
+- sensor:
+    - name: "USB Longitude"
+      unique_id: usb_longitude
+      unit_of_measurement: "°"
+      state: >
+        {{states('sensor.gp_gll_3_decimal') | float }}
+
+    - name: "USB SOG"
+      unique_id: usb_sog
+      state: "{{ states('sensor.gp_rmc_7') | float }}"
+      unit_of_measurement: "kn"
+
+    - name: "USB Time"
+      unique_id: usb_time
+      state: >
+        {% set t = states('sensor.gp_rmc_1') %}
+        {% if t|length >= 6 %}
+          {% set hh = t[0:2] | int %}
+          {% set mm = t[2:4] | int %}
+          {% set ss = t[4:6] | int %}
+          {{ now().replace(hour=hh, minute=mm, second=ss).astimezone().strftime('%H:%M:%S') }}
+        {% else %}
+          unknown
+        {% endif %}
+
+#    - name: "USB Position"
+#      unique_id: usb_position
+#      state: "{{ 'sensor.latitude_decimal') }},{{ (states('sensor.longitude_decimal') }}"
+
+- sensor:
+    - name: "USB GPS Age"
+      unique_id: usb_gps_age
+      unit_of_measurement: "s"
+      state: >
+        {% set last = states.sensor.usb_latitude.last_changed %}
+        {% if last %}
+          {{ (as_timestamp(now()) - as_timestamp(last)) | int }}
+        {% else %}
+          unknown
+        {% endif %}
+      attributes:
+        last_update: "{{ states.sensor.usb_latitude.last_changed }}"
+
+- device_tracker:
+    - name: "Searun USB GPS"
+      unique_id: searun_usb_gps_tracker
+      icon: mdi:ferry
+      latitude: >
+        {{ states('sensor.usb_latitude') | float }}
+      longitude: >
+        {{ states('sensor.usb_longitude') | float }}

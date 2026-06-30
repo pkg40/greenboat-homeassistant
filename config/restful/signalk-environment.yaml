@@ -10,7 +10,12 @@
   sensor:
     - name: "SignalK Depth"
       unique_id: "signalk_depth"
-      value_template: "{{ value_json.value }}"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "m"
 
 # Apparent Wind Angle
@@ -21,7 +26,12 @@
   sensor:
     - name: "SignalK Wind Angle Apparent"
       unique_id: "signalk_wind_angle_apparent"
-      value_template: "{{ value_json.value }}"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "rad"
 
 # True Wind Angle (Water)
@@ -32,7 +42,12 @@
   sensor:
     - name: "SignalK Wind Angle True Water"
       unique_id: "signalk_wind_angle_true_water"
-      value_template: "{{ value_json.value }}"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "rad"
 
 # Apparent Wind Speed
@@ -43,7 +58,12 @@
   sensor:
     - name: "SignalK Wind Speed Apparent"
       unique_id: "signalk_wind_speed_apparent"
-      value_template: "{{ value_json.value }}"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "m/s"
 
 # True Wind Speed
@@ -54,5 +74,10 @@
   sensor:
     - name: "SignalK Wind Speed True"
       unique_id: "signalk_wind_speed_true"
-      value_template: "{{ value_json.value }}"
+      value_template: >
+        {% if value_json is defined and value_json.value is defined %}
+          {{ value_json.value }}
+        {% else %}
+          unavailable
+        {% endif %}
       unit_of_measurement: "m/s"

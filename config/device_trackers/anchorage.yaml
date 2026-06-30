@@ -1,0 +1,4 @@
+- name: "Anchorage"
+  unique_id: anchorage
+  state: >
+    {{ states('input_number.anchorage_latitude') }}, {{ states('input_number.anchorage_longitude') }}

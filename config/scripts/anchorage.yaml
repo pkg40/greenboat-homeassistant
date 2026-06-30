@@ -1,0 +1,29 @@
+set_anchorage_here:
+  alias: "Set Anchorage to Current Location"
+  mode: single
+  sequence:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.anchorage_latitude
+      data:
+        value: "{{ states('sensor.usb_latitude') }}"
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.anchorage_longitude
+      data:
+        value: "{{ states('sensor.usb_longitude') }}"
+
+reset_anchorage:
+  alias: "Reset Anchorage to Slip"
+  mode: single
+  sequence:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.anchorage_latitude
+      data:
+        value: SLIP_LATITUDE_HERE
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.anchorage_longitude
+      data:
+        value: SLIP_LONGITUDE_HERE

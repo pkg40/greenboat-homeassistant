@@ -1,0 +1,12 @@
+# Anchorage is a settable location where you park the boat. Unlike the berth/slip which is a fixed location
+# pkg  06/23/2026
+
+anchorage_enter:
+  name: Anchorage Enter
+
+anchorage_exit:
+  name: Anchorage Exit
+
+in_anchorage:
+  name: In Anchorage
+

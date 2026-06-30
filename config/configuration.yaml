@@ -1,18 +1,3 @@
-# Loads default set of integrations. Do not remove.
-#default_config:
-
-# Load frontend themes from the themes folder
-#frontend:
-#  themes: !include_dir_merge_named themes
-
-#automation: !include_dir_merge_list automations/
-#script: !include_dir_merge_named scripts/
-#scene: !include_dir_merge_list scenes/
-#template: !include_dir_merge_list templates/
-#sensor: !include_dir_merge_list sensors/
-#binary_sensor: !include_dir_merge_list binary_sensors/
-#rest_command: !include_dir_merge_named rest_commands/
-
 # ============================
 #   HOME ASSISTANT CORE
 # ============================
@@ -33,15 +18,13 @@ homeassistant:
 # ============================
 #   DEFAULT INTEGRATIONS
 # ============================
-
 default_config:
-
+mobile_app:
 stream:
 
 # ============================
 #   LOGGING
 # ============================
-
 logger:
   default: info
   logs:
@@ -51,7 +34,6 @@ logger:
 # ============================
 #   HTTP / API
 # ============================
-
 http:
   use_x_forwarded_for: true
   trusted_proxies:
@@ -61,7 +43,6 @@ http:
 # ============================
 #   RECORDER / HISTORY
 # ============================
-
 recorder:
   purge_keep_days: 14
   commit_interval: 30
@@ -69,22 +50,22 @@ recorder:
     domains:
       - updater
       - media_player
-    entities:
-      - sensor.time
 
 # ============================
 #   DIRECTORY-BASED INCLUDES
 # ============================
 
 # LIST-BASED DOMAINS
-automation: !include_dir_merge_list automations/
 scene: !include_dir_merge_list scenes/
 template: !include_dir_merge_list templates/
 sensor: !include_dir_merge_list sensors/
 binary_sensor: !include_dir_merge_list binary_sensors/
+zone: !include_dir_merge_list zones/
+automation: !include automations.yaml
+automation manual: !include_dir_merge_list automations/
+
 # DICTIONARY-BASED DOMAINS
 script: !include_dir_merge_named scripts/
-#rest: !include_dir_merge_named rest_commands/
 shell_command: !include_dir_merge_named shell_commands/
 input_boolean: !include_dir_merge_named input_booleans/
 input_number: !include_dir_merge_named input_numbers/

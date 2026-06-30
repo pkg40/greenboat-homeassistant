@@ -1,0 +1,5 @@
+- name: Pedder Bay Marina
+  latitude: 48.347484 # approximate center of Pedder Bay Marina
+  longitude: -123.570186
+  radius: 150
+  icon: mdi:map-marker

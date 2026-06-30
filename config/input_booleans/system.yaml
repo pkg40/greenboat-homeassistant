@@ -1,0 +1,11 @@
+shore_power_on:
+  name: Shore Power On
+
+show_bilge_camera:
+  name: Show Bilge Camera
+
+show_deck_camera:
+  name: Show Deck Camera
+
+use_derived_data:
+  name: Use Derived Data

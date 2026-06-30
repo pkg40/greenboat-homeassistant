@@ -1,24 +1,114 @@
-- id: '1780730883694'
-  alias: Daily Git Export
+- id: '1781592943512'
+  alias: Turn Off Bilge Camera Stream
   description: ''
   triggers:
-  - at: 03:00:00
-    trigger: time
+  - trigger: state
+    entity_id:
+    - input_boolean.show_bilge_camera
+    from:
+    - 'off'
+    - 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
   conditions: []
   actions:
-  - data:
-      addon: 68413af6_git-exporter
-    action: hassio.addon_restart
+  - action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id: input_boolean.show_bilge_camera
+    data: {}
   mode: single
-- id: '1780730885289'
-  alias: Daily Git Export
+- id: '1781593130878'
+  alias: Turn Off Bilge Camera Stream
   description: ''
   triggers:
-  - at: 03:00:00
-    trigger: time
+  - trigger: state
+    entity_id:
+    - input_boolean.show_bilge_camera
+    from:
+    - 'off'
+    - unavailable
+    - unknown
+    to:
+    - 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
   conditions: []
   actions:
-  - data:
-      addon: 68413af6_git-exporter
-    action: hassio.addon_restart
+  - action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id: input_boolean.show_bilge_camera
+    data: {}
+  mode: single
+- id: '1781593290752'
+  alias: deck camera off
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.show_deck_camera
+    from:
+    - 'off'
+    - unavailable
+    - unknown
+    to:
+    - 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id: input_boolean.show_deck_camera
+    data: {}
+  mode: single
+- id: '1781661697354'
+  alias: Exit Slip
+  description: ''
+  triggers:
+  - trigger: zone.left
+    target:
+      entity_id: device_tracker.searun_pixel_4a
+    options:
+      for:
+        hours: 0
+        minutes: 3
+        seconds: 0
+      zone: zone.pedder_bay_slip
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id: input_boolean.in_slip
+    data: {}
+  mode: single
+- id: '1781667908608'
+  alias: Exit Marina
+  description: ''
+  triggers:
+  - trigger: zone.left
+    target:
+      entity_id: device_tracker.searun_pixel_4a
+    options:
+      for:
+        hours: 0
+        minutes: 3
+        seconds: 0
+      zone: zone.pedder_bay_marina
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.in_marina
   mode: single
