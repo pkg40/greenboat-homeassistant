@@ -1,0 +1,129 @@
+# -----------------------------
+# Home Assistant Core Files
+# -----------------------------
+
+# Secrets
+secrets.yaml
+
+# Database files (massive, noisy)
+home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+*.db
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Logs
+*.log
+*.log.*
+*.gz
+
+# Backups
+backup/
+*.tar
+*.zip
+
+# -----------------------------
+# .storage — keep only useful config
+# -----------------------------
+# Most .storage files are runtime state, not config.
+# These exclusions prevent leaking tokens or clutter.
+
+.storage/auth*
+.storage/onboarding*
+.storage/cloud*
+.storage/google*
+.storage/hassio*
+.storage/energy*
+.storage/area_registry*
+.storage/device_registry*
+.storage/entity_registry*
+.storage/uuid
+.storage/lovelace*
+.storage/backup*
+.storage/repairs*
+.storage/diagnostics*
+.storage/history*
+.storage/logbook*
+.storage/trace*
+.storage/tts*
+.storage/voice*
+.storage/assist*
+.storage/assist_pipeline*
+.storage/assist_satellite*
+.storage/assist_config*
+.storage/assist_settings*
+.storage/assist_devices*
+.storage/assist_integrations*
+.storage/assist_language*
+.storage/assist_audio*
+.storage/assist_speech*
+.storage/assist_conversation*
+.storage/assist_context*
+.storage/assist_runtime*
+.storage/assist_cache*
+.storage/assist_history*
+.storage/assist_metadata*
+.storage/assist_profiles*
+.storage/assist_tokens*
+
+# Keep only these .storage files (uncomment if needed)
+# !.storage/core.config_entries
+# !.storage/core.entity_registry
+# !.storage/core.device_registry
+# !.storage/core.area_registry
+
+# -----------------------------
+# Add-ons & Supervisor
+# -----------------------------
+addons/
+addon_configs/
+hassio.json
+
+# -----------------------------
+# Misc runtime files
+# -----------------------------
+*.pid
+*.swp
+*.tmp
+*.cache
+__pycache__/
+*.pyc
+
+# -----------------------------
+# Custom Components (safe)
+# -----------------------------
+# Keep custom_components/ unless you want to exclude specific ones
+# custom_components/some_integration/__pycache__/
+
+# -----------------------------
+# Node-RED (if installed)
+# -----------------------------
+node-red/
+node-red.log
+node-red-contrib-*/
+
+
+# -----------------------------
+# ESPHome (if installed)
+# -----------------------------
+esphome/.esphome/
+esphome/build/
+esphome/.pioenvs/
+esphome/.piolibdeps/
+esphome/.esphome/
+
+# -----------------------------
+# Zigbee2MQTT (if installed)
+# -----------------------------
+zigbee2mqtt/data/log/
+zigbee2mqtt/data/state.json
+zigbee2mqtt/data/*.db
+
+# -----------------------------
+# Misc HA UI files
+# -----------------------------
+www/community/*/.cache/
+www/community/*/dist/
+
