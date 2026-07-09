@@ -1478,3 +1478,12 @@ config:
       type: grid
     title: poo
     type: sections
+  - path: ''
+    sections:
+    - cards: []
+      type: grid
+    - cards:
+      - heading: New section
+        type: heading
+      type: grid
+    type: sections
