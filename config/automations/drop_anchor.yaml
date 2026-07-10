@@ -1,0 +1,21 @@
+- alias: Smart Anchor Alarm
+  description: Smart Anchor Integration Alarm
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.boat_location
+    zone: zone.anchor_zone
+    event: leave
+  condition:
+  - condition: state
+    entity_id: device_tracker.boat_location
+    state: anchored
+  action:
+  - service: notify.notify
+    data:
+      message: Anchor Alarm
+      data:
+        tag: anchor_alarm
+        persistent: true
+        color: red
+        push: "interruption-level: critical"
+  mode: single

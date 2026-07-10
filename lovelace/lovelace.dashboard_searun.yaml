@@ -1480,10 +1480,21 @@ config:
     type: sections
   - path: ''
     sections:
-    - cards: []
-      type: grid
     - cards:
-      - heading: New section
+      - heading: Main Map and Zone Settings
         type: heading
+      - aspect_ratio: 4x3
+        dark_mode: false
+        default_zoom: 18
+        entities:
+        - entity: zone.anchor_zone
+        - entity: device_tracker.boat_location
+        hours_to_show: 4
+        type: map
+      - entities:
+        - entity: number.anchor_zone_radius
+          icon: mdi:location-exit
+          name: Zone Radius
+        type: entities
       type: grid
     type: sections

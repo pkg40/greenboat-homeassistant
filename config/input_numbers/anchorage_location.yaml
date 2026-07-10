@@ -13,3 +13,10 @@ anchorage_longitude:
   step: 0.000001
   mode: box
   initial: -123.569192
+
+anchorage_radius:
+  name: Anchorage Radius
+  min: 10
+  max: 150
+  step: 1
+  initial: 50

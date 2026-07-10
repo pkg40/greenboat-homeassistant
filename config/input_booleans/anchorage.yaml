@@ -10,3 +10,5 @@ anchorage_exit:
 in_anchorage:
   name: In Anchorage
 
+anchorage_set:
+  name: Anchorage Set

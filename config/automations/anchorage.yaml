@@ -24,4 +24,26 @@
       data:
         message: >
           Distance to anchorage:
-          {{ states('sensor.anchorage_distance') }} m
+          {{ states('sensor.anchorage_distance') }}
+
+- alias: Anchor Alarm
+  description: Smart Anchor Integration Alarm
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.searun_usb_gps
+    zone: zone.anchor_zone
+    event: leave
+  condition:
+  - condition: state
+    entity_id: device_tracker.searun_usb_gps
+    state: anchored
+  action:
+  - service: notify.notify
+    data:
+      message: Anchor Alarm
+      data:
+        tag: anchor_alarm
+        persistent: true
+        color: red
+        push: "interruption-level: critical"
+  mode: single

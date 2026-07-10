@@ -1,0 +1,19 @@
+make_zone:
+  alias: "Create Zone"
+  mode: single
+  fields:
+    zone_name:
+      description: "Name of the zone"
+    latitude:
+      description: "Latitude"
+    longitude:
+      description: "Longitude"
+    radius:
+      description: "Radius in meters"
+  sequence:
+    - service: zone.create
+      data:
+        name: "{{ zone_name }}"
+        latitude: "{{ latitude }}"
+        longitude: "{{ longitude }}"
+        radius: "{{ radius }}"

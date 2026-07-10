@@ -1,0 +1,176 @@
+config:
+  views:
+  - cards: []
+    sections:
+    - cards:
+      - aspect_ratio: 4x3
+        default_zoom: 18
+        entities:
+        - entity: zone.anchor_zone
+        - entity: device_tracker.boat_location
+        hours_to_show: 4
+        theme_mode: auto
+        type: map
+      - entities:
+        - entity: number.anchor_zone_radius
+          icon: mdi:location-exit
+          name: Zone Radius
+        type: entities
+      - icon: mdi:map-marker-radius
+        name: Set Anchor Zone
+        tap_action:
+          action: call-service
+          data:
+            latitude: '{{ states(''sensor.usb_latitude'') }}'
+            longitude: '{{ states(''sensor.usb_longitude'') }}'
+            radius: 50
+            zone_name: anchor_zone
+          service: script.make_zone
+        type: button
+      type: grid
+    title: Main Map and Zone Settings
+    type: sections
+  - cards: []
+    sections:
+    - cards:
+      - card:
+          cards:
+          - icon: mdi:arrow-up-bold-outline
+            name: Lift Anchor
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: call-service
+              confirmation:
+                text: Are you sure you want to lift anchor?
+              service: smart_anchor.lift_anchor
+              target: {}
+            type: button
+          - icon: mdi:sail-boat
+            name: Set Max Radius
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: call-service
+              confirmation:
+                text: Set radius to current boat position?
+              service: smart_anchor.mark_max_radius
+              target: {}
+            type: button
+          type: horizontal-stack
+        conditions:
+        - condition: state
+          entity: device_tracker.boat_location
+          state: anchored
+        type: conditional
+      - card:
+          cards:
+          - icon: mdi:circle-edit-outline
+            name: Edit Zone
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: navigate
+              navigation_path: /config/zone
+            type: button
+          - show_icon: true
+            show_name: true
+            tap_action:
+              action: none
+            type: button
+          type: horizontal-stack
+        conditions:
+        - condition: state
+          entity: device_tracker.boat_location
+          state: anchored
+        type: conditional
+      - card:
+          cards:
+          - icon: mdi:anchor
+            name: Drop Anchor
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: call-service
+              service: smart_anchor.drop_anchor
+              target: {}
+            type: button
+          type: horizontal-stack
+        conditions:
+        - condition: state
+          entity: device_tracker.boat_location
+          state: not_anchored
+        type: conditional
+      type: grid
+    - cards:
+      - card:
+          cards:
+          - icon: mdi:arrow-up-bold-outline
+            name: Lift Anchor
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: call-service
+              confirmation:
+                text: Are you sure you want to lift anchor?
+              service: smart_anchor.lift_anchor
+              target: {}
+            type: button
+          - icon: mdi:sail-boat
+            name: Set Max Radius
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: call-service
+              confirmation:
+                text: Set radius to current boat position?
+              service: smart_anchor.mark_max_radius
+              target: {}
+            type: button
+          type: horizontal-stack
+        conditions:
+        - condition: state
+          entity: device_tracker.boat_location
+          state: anchored
+        type: conditional
+      - card:
+          cards:
+          - icon: mdi:circle-edit-outline
+            name: Edit Zone
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: navigate
+              navigation_path: /config/zone
+            type: button
+          - show_icon: true
+            show_name: true
+            tap_action:
+              action: none
+            type: button
+          type: horizontal-stack
+        conditions:
+        - condition: state
+          entity: device_tracker.boat_location
+          state: anchored
+        type: conditional
+      - card:
+          cards:
+          - icon: mdi:anchor
+            name: Drop Anchor
+            show_icon: true
+            show_name: true
+            tap_action:
+              action: call-service
+              service: smart_anchor.drop_anchor
+              target: {}
+            type: button
+          type: horizontal-stack
+        conditions:
+        - condition: state
+          entity: device_tracker.boat_location
+          state: not_anchored
+        type: conditional
+      type: grid
+    title: Anchored State Actions
+    type: sections
