@@ -49,8 +49,8 @@
         last_update: "{{ states.sensor.usb_latitude.last_changed }}"
 
 - device_tracker:
-    - name: "Searun USB GPS"
-      unique_id: searun_usb_gps_tracker
+    - name: "USB Tracker"
+      unique_id: usb_tracker
       icon: mdi:ferry
       latitude: >
         {{ states('sensor.usb_latitude') | float }}

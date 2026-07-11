@@ -2,128 +2,58 @@
 #   Anchorage Logic Templates
 # ============================
 
-# Convert anchorage reference point (input_numbers) into decimal degrees
-#- sensor:
-#    - name: "Anchorage Reference Latitude"
-#      unique_id: anchorage_reference_latitude
-#      state: "{{ states('input_number.anchorage_latitude') | float }}"
-#      unit_of_measurement: "°"
-
-#    - name: "Anchorage Reference Longitude"
-#      unique_id: anchorage_reference_longitude
-#      state: "{{ states('input_number.anchorage_longitude') | float }}"
-#      unit_of_measurement: "°"
-- sensor:
-    - name: "Anchorage Coordinates"
-      unique_id: anchorage_coordinates
-      state: >
-        {{ states('input_number.anchorage_latitude') }}, {{ states('input_number.anchorage_longitude') }}
-
-- device_tracker:
-    - name: "Searun USB GPS"
-      unique_id: searun_usb_gps_tracker
-      icon: mdi:ferry
-      latitude: >
-        {{ states('sensor.usb_latitude') | float }}
-      longitude: >
-        {{ states('sensor.usb_longitude') | float }}
+# Distance from Anchorage
 - sensor:
     - name: "Anchorage Distance"
       unique_id: anchorage_distance
       unit_of_measurement: "m"
       state: >
-        {% set alat = states('input_number.anchorage_latitude') | float(none) %}
-        {% set alon = states('input_number.anchorage_longitude') | float(none) %}
-        {% set vlat = states('sensor.usb_latitude') | float(none) %}
-        {% set vlon = states('sensor.usb_longitude') | float(none) %}
-
-        {% if alat is none or alon is none or vlat is none or vlon is none %}
-          unavailable
-        {% else %}
-          {% set R = 6371000 %}
-          {% set dlat = (vlat - alat) * pi / 180 %}
-          {% set dlon = (vlon - alon) * pi / 180 %}
-          {% set alat_r = alat * pi / 180 %}
-          {% set vlat_r = vlat * pi / 180 %}
-          {% set a = sin(dlat/2)**2 + cos(alat_r) * cos(vlat_r) * sin(dlon/2)**2 %}
-          {% set c = 2 * atan2(sqrt(a), sqrt(1-a)) %}
-          {{ (R * c) | round(1) }}
-        {% endif %}
+        {{ distance('device_tracker.usb_tracker', 'device_tracker.anchorage_tracker') * 1000 }}
       attributes:
-        vessel_lat: "{{ states('sensor.usb_latitude') }}"
-        vessel_lon: "{{ states('sensor.usb_longitude') }}"
-        anchorage_lat: "{{ states('input_number.anchorage_latitude') }}"
-        anchorage_lon: "{{ states('input_number.anchorage_longitude') }}"
+        kilometers: >
+          {{ distance('device_tracker.usb_tracker', 'device_tracker.anchorage_tracker') }}
+        nautical_miles: >
+          {{ (distance('device_tracker.usb_tracker', 'device_tracker.anchorage_tracker') * 1000 / 1852) | round(3) }}
+        miles: >
+          {{ (distance('device_tracker.usb_tracker', 'device_tracker.anchorage_tracker') * 1000 / 1609.344) | round(3) }}
+        bearing: >
+          {{ bearing(
+              state_attr('device_tracker.usb_tracker', 'latitude'),
+              state_attr('device_tracker.usb_tracker', 'longitude'),
+              state_attr('device_tracker.anchorage_tracker', 'latitude'),
+              state_attr('device_tracker.anchorage_tracker', 'longitude')
+          ) | round(1) }}
+        from_lat: "{{ state_attr('device_tracker.usb_tracker', 'latitude') }}"
+        from_lon: "{{ state_attr('device_tracker.usb_tracker', 'longitude') }}"
+        to_lat: "{{ state_attr('device_tracker.anchorage_tracker', 'latitude') }}"
+        to_lon: "{{ state_attr('device_tracker.anchorage_tracker', 'longitude') }}"
 
-- sensor:
-    - name: "Anchorage Distance NM"
-      unique_id: anchorage_distance_nm
-      unit_of_measurement: "nm"
-      state: >
-        {% set dist_m = states('sensor.anchorage_distance') | float(none) %}
-        {% if dist_m is none %}
-          unavailable
-        {% else %}
-          {{ (dist_m / 1852) | round(3) }}
-        {% endif %}
-      attributes:
-        meters: "{{ states('sensor.anchorage_distance') }}"
-
-        # Bearing from anchorage to vessel (optional but useful)
-    - name: "Anchorage Bearing"
-      unique_id: anchorage_bearing
-      unit_of_measurement: "°"
-      state: >
-        {% set alat = states('input_number.anchorage_latitude') | float(none) %}
-        {% set alon = states('input_number.anchorage_longitude') | float(none) %}
-        {% set vlat = states('sensor.usb_latitude') | float(none) %}
-        {% set vlon = states('sensor.usb_longitude') | float(none) %}
-
-        {% if alat is none or alon is none or vlat is none or vlon is none %}
-          unavailable
-        {% else %}
-          {# Convert to radians #}
-          {% set alat_r = alat * pi / 180 %}
-          {% set vlat_r = vlat * pi / 180 %}
-          {% set dlon_r = (vlon - alon) * pi / 180 %}
-
-          {# Bearing calculation #}
-          {% set y = sin(dlon_r) * cos(vlat_r) %}
-          {% set x = cos(alat_r) * sin(vlat_r) -
-                     sin(alat_r) * cos(vlat_r) * cos(dlon_r) %}
-          {% set brng = atan2(y, x) %}
-
-          {# Convert radians → degrees and normalize 0–360 #}
-          {{ ((brng * 180 / pi) + 360) % 360 | round(1) }}
-        {% endif %}
-      attributes:
-        vessel_lat: "{{ states('sensor.usb_latitude') }}"
-        vessel_lon: "{{ states('sensor.usb_longitude') }}"
-        anchorage_lat: "{{ states('input_number.anchorage_latitude') }}"
-        anchorage_lon: "{{ states('input_number.anchorage_longitude') }}"
-
-# Derived boolean: vessel is inside anchorage radius
+# Vessel inside anchorage radius
 - binary_sensor:
-    - name: "In Anchorage Derived"
-      unique_id: in_anchorage_derived
+    - name: "In Anchorage"
+      unique_id: in_anchorage
       state: >
-        {% set dist = states('sensor.anchorage_distance') | float(none) %}
-        {% set radius = 75 %}
-        {% if dist is none %}
-          unavailable
-        {% else %}
-          {{ dist < radius }}
-        {% endif %}
+        {% set dist_m = states('sensor.anchorage_distance') | float(0) %}
+        {% set radius_m = states('input_number.anchorage_radius') | float(0) %}
+        {{ dist_m <= radius_m }}
       attributes:
-        distance_m: "{{ states('sensor.anchorage_distance') }}"
-        radius_m: "75"
+        distance_m: "{{ dist_m }}"
+        radius_m: "{{ radius_m }}"
+        distance_nm: "{{ (dist_m / 1852) | round(3) }}"
+        bearing: >
+          {{ bearing(
+              state_attr('device_tracker.peter_phone', 'latitude'),
+              state_attr('device_tracker.peter_phone', 'longitude'),
+              state_attr('device_tracker.truck_gps', 'latitude'),
+              state_attr('device_tracker.truck_gps', 'longitude')
+          ) | round(1) }}
 
-    - name: "Anchorage Drift Alarm"
-      unique_id: anchorage_drift_alarm
-      state: >
-        {% set inside = states('binary_sensor.in_anchorage_derived') %}
-        {% if inside == 'off' %}
-          true
-        {% else %}
-          false
-        {% endif %}
+# tracker Entity
+- device_tracker:
+    - name: "anchorage_tracker"
+      unique_id: anchorage_tracker
+      icon: mdi:anchor
+      latitude: >
+        {{ states('sensor.anchorage_latitude') | float }}
+      longitude: >
+        {{ states('sensor.anchorage_longitude') | float }}

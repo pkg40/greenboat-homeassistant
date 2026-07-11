@@ -630,62 +630,22 @@ config:
     title: logs
     type: panel
   views:
-  - cards:
-    - cards:
-      - color: info
-        entity: input_button.anchorage_distance_button
-        icon: mdi:map-marker-distance
-        name: Distance
-        show_icon: true
-        show_name: true
-        show_state: false
-        type: entity
-      - color: primary
-        entity: input_button.anchorage_set_button
-        icon: mdi:anchor
-        name: Set
-        show_icon: true
-        show_name: true
-        show_state: false
-        type: entity
-      - color: warning
-        entity: input_button.anchorage_reset_button
-        icon: mdi:anchor-remove
-        name: Reset
-        show_icon: true
-        show_name: true
-        show_state: false
-        type: entity
-      - card_mod:
-          style: "ha-card {\n  width: 40px;\n  box-shadow: none;\n  background: none;\n\
-            }\n"
-        entity: sensor.dummy_spacer
-        show_icon: false
-        show_name: false
-        show_state: false
-        type: entity
-      - color: primary
-        entity: input_boolean.show_bilge_camera
-        icon: mdi:video-image
-        name: Bilge
-        show_icon: true
-        show_name: true
-        show_state: false
-        type: entity
-      type: horizontal-stack
+  - cards: []
     icon: mdi:shield-home-outline
     max_columns: 4
     sections:
     - cards:
+      - heading: null
+        type: heading
       - cards:
-        - cards:
-          - card_mod:
+        - card:
+            card_mod:
               style: "ha-card {\n  background-color: #c6f6c6;   /* pastel green */\n\
                 \  color: #004d00;              /* dark green text */\n  border-radius:\
                 \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
             entity: script.set_anchorage_here
             icon: mdi:anchor
-            name: Set
+            name: Drop
             show_state: false
             tap_action:
               action: call-service
@@ -693,13 +653,19 @@ config:
               target:
                 entity_id: script.set_anchorage_here
             type: button
-          - card_mod:
+          conditions:
+          - condition: state
+            entity: input_boolean.anchorage_set
+            state: 'on'
+          type: conditional
+        - card:
+            card_mod:
               style: "ha-card {\n  background-color: #ffcccc;   /* pastel red */\n\
                 \  color: #660000;              /* dark red text */\n  border-radius:\
                 \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
             entity: script.reset_anchorage
-            icon: mdi:anchor-remove
-            name: Reset
+            icon: mdi:anchor
+            name: Weigh
             show_state: false
             tap_action:
               action: call-service
@@ -707,794 +673,712 @@ config:
               target:
                 entity_id: script.reset_anchorage
             type: button
-          - card_mod:
-              style: "ha-card {\n  background-color: #b3d9ff;   /* pastel blue */\n\
-                \  color: #003366;              /* dark navy text */\n  border-radius:\
-                \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
-            entity: sensor.anchorage_distance_nm
-            icon: mdi:map-marker-distance
-            name: Distance
-            show_state: true
-            tap_action:
-              action: none
-            type: button
-          - card_mod:
-              style: "ha-card {\n  background-color: #ffe6b3;   /* pastel amber */\n\
-                \  color: #663d00;              /* dark amber text */\n  border-radius:\
-                \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
-            entity: input_boolean.show_bilge_camera
-            icon: mdi:video-outline
-            name: Bilge
-            show_state: false
-            tap_action:
-              action: toggle
-            type: button
-          - card_mod:
-              style: "ha-card {\n  background-color: #ffe6b3;   /* pastel amber */\n\
-                \  color: #663d00;              /* dark amber text */\n  border-radius:\
-                \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
-            entity: input_boolean.show_deck_camera
-            icon: mdi:video-outline
-            name: Deck
-            show_state: false
-            tap_action:
-              action: toggle
-            type: button
-          type: horizontal-stack
+          conditions:
+          - condition: state
+            entity: input_boolean.anchorage_set
+            state: 'on'
+          type: conditional
+        - card_mod:
+            style: "ha-card {\n  background-color: #b3d9ff;   /* pastel blue */\n\
+              \  color: #003366;              /* dark navy text */\n  border-radius:\
+              \ 8px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
+          entity: sensor.anchorage_distance
+          icon: mdi:map-marker-distance
+          name: Distance
+          show_state: true
+          tap_action:
+            action: none
+          type: button
+        - card_mod:
+            style: "ha-card {\n  background-color: #ffe6b3;   /* pastel amber */\n\
+              \  color: #663d00;              /* dark amber text */\n  border-radius:\
+              \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
+          entity: input_boolean.show_bilge_camera
+          icon: mdi:video-outline
+          name: Bilge
+          show_state: false
+          tap_action:
+            action: toggle
+          type: button
+        - card_mod:
+            style: "ha-card {\n  background-color: #ffe6b3;   /* pastel amber */\n\
+              \  color: #663d00;              /* dark amber text */\n  border-radius:\
+              \ 12px;\n  padding: 8px;\n  font-weight: 600;\n}\n"
+          entity: input_boolean.show_deck_camera
+          icon: mdi:video-outline
+          name: Deck
+          show_state: false
+          tap_action:
+            action: toggle
+          type: button
+        type: horizontal-stack
+      - card:
+          card_mod:
+            style: "ha-card {\n  width: 100%;\n  animation: flash 1s infinite;\n \
+              \ background-color: red !important;\n  color: white !important;\n  text-align:\
+              \ center;\n  font-size: 1.6rem;\n  font-weight: bold;\n  padding: 20px;\n\
+              \  border: 4px solid white;\n  border-radius: 12px;\n}\n\n@keyframes\
+              \ flash {\n  0%   { opacity: 1; }\n  50%  { opacity: 0.4; }\n  100%\
+              \ { opacity: 1; }\n}\n"
+          icon: mdi:water-alert
+          icon_color: red
+          primary: "\u26A0\uFE0F HIGH WATER IN BILGE \u26A0\uFE0F"
+          secondary: Immediate attention required
+          type: custom:mushroom-template-card
+        conditions:
+        - entity: binary_sensor.sonoff_snzb_05p
+          state: 'on'
+        type: conditional
+      - cards:
         - cards:
-          - card:
-              card_mod:
-                style: "ha-card {\n  width: 100%;\n  animation: flash 1s infinite;\n\
-                  \  background-color: red !important;\n  color: white !important;\n\
-                  \  text-align: center;\n  font-size: 1.6rem;\n  font-weight: bold;\n\
-                  \  padding: 20px;\n  border: 4px solid white;\n  border-radius:\
-                  \ 12px;\n}\n\n@keyframes flash {\n  0%   { opacity: 1; }\n  50%\
-                  \  { opacity: 0.4; }\n  100% { opacity: 1; }\n}\n"
-              icon: mdi:water-alert
-              icon_color: red
-              primary: "\u26A0\uFE0F HIGH WATER IN BILGE \u26A0\uFE0F"
-              secondary: Immediate attention required
-              type: custom:mushroom-template-card
-            conditions:
-            - entity: binary_sensor.sonoff_snzb_05p
-              state: 'on'
-            type: conditional
-          - cards:
-            - cards:
-              - card_mod:
-                  style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_1_on','on')\
-                    \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid\
-                    \ var(--c);\n  background-color: color-mix(in srgb, var(--c) 10%,\
-                    \ transparent);\n  border-radius: 8px;\n  padding: 0px 12px;\n\
-                    }\n"
-                color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_1_on'',''on'')
-                  %} {{ ''amber'' if on else ''gray'' }}
+          - card_mod:
+              style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_1_on','on')\
+                \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid var(--c);\n\
+                \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+                \  border-radius: 8px;\n  padding: 0px 12px;\n}\n"
+            color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_1_on'',''on'')
+              %} {{ ''amber'' if on else ''gray'' }}
 
-                  '
-                features_position: bottom
-                icon: mdi:water-pump
-                primary: Pump 1
-                secondary: "{{ states('sensor.system_pump_switch_sensor_pump_1_cycles')\
-                  \ | int }} - \u21BB\n"
-                type: custom:mushroom-template-card
-              - card:
-                  card_mod:
-                    style: "ha-card {\n  background-color: color-mix(in srgb, orange\
-                      \ 20%, transparent);\n  border-radius: 2px;\n  padding: 0px\
-                      \ 12px;\n}\n"
-                  features_position: bottom
-                  multiline_secondary: true
-                  secondary: '{% set today = states(''sensor.pump_1_on_time_today'')
-                    | float(0) %}
-
-                    {% set week = states(''sensor.pump_1_on_time_this_week'') | float(0)
-                    %}
-
-                    {% set today_h = (today * 60) // 60 %}
-
-                    {% set today_m = (today * 60) % 60 %}
-
-                    {% set week_h = (week * 60) // 60 %}
-
-                    {% set week_m = (week * 60) % 60 %}
-
-                    Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
-                    }} h
-
-                    Week : {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m)
-                    }} h
-
-                    '
-                  type: custom:mushroom-template-card
-                conditions:
-                - condition: state
-                  entity: binary_sensor.pump_1_high_runtime
-                  state: 'on'
-                type: conditional
-              type: vertical-stack
-            - cards:
-              - card_mod:
-                  style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_2_on','on')\
-                    \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid\
-                    \ var(--c);\n  background-color: color-mix(in srgb, var(--c) 10%,\
-                    \ transparent);\n  border-radius: 8px;\n  padding: 0px 12px;\n\
-                    }\n"
-                color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_2_on'',''on'')
-                  %} {{ ''amber'' if on else ''gray'' }}
-
-                  '
-                features_position: bottom
-                icon: mdi:water-pump
-                primary: Pump 2
-                secondary: "{{ states('sensor.system_pump_switch_sensor_pump_2_cycles')\
-                  \ | int }} - \u21BB\n"
-                type: custom:mushroom-template-card
-              - card:
-                  card_mod:
-                    style: "ha-card {\n  background-color: color-mix(in srgb, orange\
-                      \ 20%, transparent);\n  border-radius: 2px;\n  padding: 0px\
-                      \ 12px;\n}\n"
-                  features_position: bottom
-                  multiline_secondary: true
-                  secondary: '{% set today = states(''sensor.pump_2_on_time_today'')
-                    | float(0) %}
-
-                    {% set week = states(''sensor.pump_2_on_time_this_week'') | float(0)
-                    %}
-
-                    {% set today_h = (today * 60) // 60 %}
-
-                    {% set today_m = (today * 60) % 60 %}
-
-                    {% set week_h = (week * 60) // 60 %}
-
-                    {% set week_m = (week * 60) % 60 %}
-
-                    Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
-                    }} h
-
-                    Week : {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m)
-                    }} h
-
-                    '
-                  type: custom:mushroom-template-card
-                conditions:
-                - condition: state
-                  entity: binary_sensor.pump_2_high_runtime
-                  state: 'on'
-                type: conditional
-              type: vertical-stack
-            - cards:
-              - card_mod:
-                  style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_3_on','on')\
-                    \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid\
-                    \ var(--c);\n  background-color: color-mix(in srgb, var(--c) 10%,\
-                    \ transparent);\n  border-radius: 8px;\n  padding: 0px 12px;\n\
-                    }\n"
-                color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_3_on'',''on'')
-                  %} {{ ''amber'' if on else ''gray'' }}
-
-                  '
-                features_position: bottom
-                icon: mdi:water-pump
-                primary: Pump 3
-                secondary: "{{ states('sensor.system_pump_switch_sensor_pump_3_cycles')\
-                  \ | int }} - \u21BB\n"
-                type: custom:mushroom-template-card
-              - card:
-                  card_mod:
-                    style: "ha-card {\n  background-color: color-mix(in srgb, orange\
-                      \ 20%, transparent);\n  border-radius: 2px;\n  padding: 0px\
-                      \ 12px;\n}\n"
-                  features_position: bottom
-                  multiline_secondary: true
-                  secondary: '{% set today = states(''sensor.pump_3_on_time_today'')
-                    | float(0) %}
-
-                    {% set week = states(''sensor.pump_3_on_time_this_week'') | float(0)
-                    %}
-
-                    {% set today_h = (today * 60) // 60 %}
-
-                    {% set today_m = (today * 60) % 60 %}
-
-                    {% set week_h = (week * 60) // 60 %}
-
-                    {% set week_m = (week * 60) % 60 %}
-
-                    Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
-                    }} h
-
-                    Week : {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m)
-                    }} h
-
-                    '
-                  type: custom:mushroom-template-card
-                conditions:
-                - condition: state
-                  entity: binary_sensor.pump_3_high_runtime
-                  state: 'on'
-                type: conditional
-              type: vertical-stack
-            type: horizontal-stack
-          - cards:
-            - card_mod:
-                style: "ha-card {\n  {% set t = states('sensor.bilge_temperature_f')\
-                  \ | float(0) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
-                  \ srgb, lightblue 20%, transparent);\n    border: 3px solid lightblue;\n\
-                  \  {% elif t < 37 %}\n    background-color: color-mix(in srgb, blue\
-                  \ 20%, transparent);\n    border: 3px solid blue;\n  {% elif t >\
-                  \ 85 %}\n    background-color: color-mix(in srgb, gold 20%, transparent);\n\
-                  \    border: 3px solid gold;\n  {% elif t > 95 %}\n    background-color:\
-                  \ color-mix(in srgb, red 20%, transparent);\n    border: 3px solid\
-                  \ red;\n  {% else %}\n    background-color: color-mix(in srgb, green\
-                  \ 10%, transparent);\n    border: 3px solid green;\n  {% endif %}\n\
-                  \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              color: '{% set t = states(''sensor.bilge_temperature_f'') | float(0)
-                %} {% if t < 33 %} blue {% elif t < 37 %} blue {% elif t > 85 %} amber
-                {% elif t > 95 %} red {% else %} green {% endif %}
-
-                '
-              features_position: bottom
-              icon: mdi:thermometer
-              primary: Bilge Temperature
-              secondary: "{% set t = states('sensor.bilge_temperature_f') | float(0)\
-                \ %} {{ t }} \xB0F\n"
-              type: custom:mushroom-template-card
-              vertical: true
-            - card:
-                card_mod:
-                  style: "ha-card {\n  {% set cam = states('sensor.bilge_cam_online')\
-                    \ %}\n  {% set hum = states('sensor.bilge_humidity') | float %}\n\
-                    \  {% if hum > 80 %}\n    --c: red;\n  {% elif cam == 'Offline'\
-                    \ or (hum > 70) %}\n    --c: orange;\n  {% else %}\n    --c: green;\n\
-                    \  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
-                    \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
-                    \ 8px;\n  padding: 0px 0px;\n}\n"
-                color: "{% set cam = states('sensor.bilge_cam_online') %}  {% set\
-                  \ hum = states('sensor.bilge_humidity') | float %}  {% if hum >\
-                  \ 80 %}     \n  red\n{% elif cam == 'Offline' or (hum > 70) %}\n\
-                  \  amber\n{% else %}\n  green\n{% endif %}\n"
-                features_position: bottom
-                icon: mdi:alert
-                primary: Bilge
-                secondary: "{% set cam = states('sensor.bilge_cam_online') %}\n{%\
-                  \ set hum = states('sensor.bilge_humidity') | float %}\n{% set ns\
-                  \ = namespace(text='') %}\n\n{% if cam == 'Offline' %}\n  {% set\
-                  \ ns.text = ns.text + 'Camera Offline' %}\n{% endif %}\n\n{% if\
-                  \ hum > 70 %}\n  {% if ns.text %}\n    {% set ns.text = ns.text\
-                  \ + '\\n' %}\n  {% endif %}\n  {% set ns.text = ns.text + 'Humidity\
-                  \ High' %}\n{% endif %}\n{{ ns.text }}\n    \n"
-                type: custom:mushroom-template-card
-                vertical: true
-              conditions:
-              - condition: or
-                conditions:
-                - above: 70
-                  condition: numeric_state
-                  entity: sensor.bilge_humidity
-                - condition: state
-                  entity: sensor.bilge_cam_online
-                  state: Offline
-              type: conditional
-            - card_mod:
-                style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
-                  \ !important;\n  {% set h = states('sensor.deck_humidity') | float(0)\
-                  \ %}\n  {% if h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n\
-                  \    --c: green;\n  {% elif h < 75 %}\n    --c: gold;\n  {% else\
-                  \ %}\n    --c: red;\n  {% endif %}\n  border: 3px solid var(--c);\n\
-                  \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
-                  \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              color: "{% set h = states('sensor.bilge_humidity') | float(0) %} {%\
-                \ if h < 40 %}\n  blue\n{% elif h < 60 %}\n  green\n{% elif h < 75\
-                \ %}\n  amber\n{% else %}\n  red\n{% endif %}\n"
-              features_position: bottom
-              icon: mdi:water-percent
-              primary: Bilge Humidity
-              secondary: "{% set h = states('sensor.bilge_humidity') | float(0) %}\
-                \ {% set t = states('sensor.bilge_temperature_f') | float(0) %} {#\
-                \ Convert F \u2192 C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula\
-                \ for dew point #} {% set a = 17.62 %} {% set b = 243.12 %} {% set\
-                \ gamma = (a * tc / (b + tc)) + (h/100) | log %} {% set dp_c = (b\
-                \ * gamma) / (a - gamma) %} {# Convert back to F #} {% set dp_f =\
-                \ (dp_c * 9/5) + 32 %} {{ h | round(0) }}% \u2022 {{ dp_f | round(1)\
-                \ }}\xB0F\n"
-              type: custom:mushroom-template-card
-              vertical: true
-            type: horizontal-stack
-          - card:
-              card:
-                camera_view: live
-                card_mod:
-                  style: "ha-card {\n  border: 3px solid orange;\n  border-radius:\
-                    \ 8px;\n  background-color: color-mix(in srgb, red 10%, transparent);\n\
-                    \  padding: 0px;\n}\n"
-                entity: camera.bilge_bilge_camera
-                fit_mode: cover
-                name: Bilge Video Stream
-                show_name: true
-                show_state: false
-                type: picture-entity
-              conditions:
-              - condition: state
-                entity: binary_sensor.bilge_cam_online
-                state_not: 'off'
-              type: conditional
-            conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity: binary_sensor.pump_1_high_runtime
-                state: 'on'
-              - condition: state
-                entity: binary_sensor.pump_2_high_runtime
-                state: 'on'
-              - condition: state
-                entity: binary_sensor.pump_3_high_runtime
-                state: 'on'
-              - condition: state
-                entity: input_boolean.show_bilge_camera
-                state: 'on'
-            type: conditional
-          - cards:
-            - area: system
-              card:
-                card_mod:
-                  style: "ha-card {\n  border: 2px solid var(--primary-color);\n \
-                    \ border-radius: 8px;\n  padding: 6px;\n}\n:host {\n  --mush-primary-font-size:\
-                    \ 18px;\n  --mush-secondary-font-size: 14px;\n  --mush-font-family:\
-                    \ \"Montserrat\", sans-serif;\n  --mush-primary-font-weight: 600;\n\
-                    \  --mush-secondary-font-weight: 400;\n}\n"
-                icon: mdi:battery
-                icon_color: "{% if states('sensor.start_battery_voltage') | float\
-                  \ < 12.0\n      or states('sensor.start_battery_state') == 'verylow'\n\
-                  \      or states('sensor.house_battery_state == 'low'\n      or\
-                  \ states('sensor.house_battery_state == 'verylow' %}\n  red\n{%\
-                  \ elif states('sensor.start_battery_status') == 'discharging'\n\
-                  \      or states('sensor.house_battery_status') == 'discharging'\
-                  \ %}\n  amber\n{% if states('sensor.start_battery_voltage') | float\
-                  \ < 12.0\n      or states('sensor.house_battery_voltage') | float\
-                  \ < 12.0 %}\n  red\n{% else %}\n  green\n{% endif %}\n"
-                primary: "{% if states('sensor.start_battery_state') == 'low'\n  \
-                  \    or states('sensor.start_battery_state') == 'verylow'\n    \
-                  \  or states('sensor.house_battery_state == 'low'\n      or states('sensor.house_battery_state\
-                  \ == 'verylow' %}\n  \U0001F534 Battery voltage low!\n{% elif states('sensor.start_battery')\
-                  \ == 'discharging'\n      or states('sensor.house_battery') == 'discharging'\
-                  \ %}\n  \u26A0\uFE0F Batteries are discharging\n{% else %}\n  \u2705\
-                  \ Batteries OK\n{% endif %}\n"
-                secondary: "Start: {{ states('sensor.start_battery_voltage') }}\u202F\
-                  V | House: {{ states('sensor.house_battery_voltage') }}\u202FV\n"
-                type: custom:mushroom-template-card
-              card_mod:
-                style: "ha-card {\n  --c: {% set s = states('sensor.start_battery_state')\
-                  \ %}\n    {% if s == 'charging' %} green\n    {% elif s == 'resting'\
-                  \ %} blue\n    {% elif s == 'discharging' %} orange\n    {% elif\
-                  \ s == 'low' %} yellow\n    {% elif s == 'veryLow' %} red\n    {%\
-                  \ elif s == 'disconnected' %} grey\n    {% else %} grey\n    {%\
-                  \ endif %};\n  border: 3px solid var(--c);\n  background-color:\
-                  \ color-mix(in srgb, var(--c) 10%, transparent);              border-radius:\
-                  \ 12px;\n  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              entity: sensor.system_12v_battery_monitor_starting_battery_voltage
-              features_position: bottom
-              icon: mdi:car-battery
-              icon_color: '{% set s = states(''sensor.start_battery_state'') %} {%
-                if s == ''charging'' %} green {% elif s == ''resting'' %} blue {%
-                elif s == ''discharging'' %} orange {% elif s == ''low'' %} yellow
-                {% elif s == ''veryLow'' %} red {% elif s == ''disconnected'' %} grey
-                {% else %} grey {% endif %}
-
-                '
-              primary: Start Battery
-              secondary: "{% set v = states('sensor.system_12v_battery_monitor_starting_battery_voltage')\
-                \ %} {% set s = states('sensor.start_battery_state') %} {% if s ==\
-                \ 'disconnected' %}\n    {{ \"%.2f\" | format(v | float) }}\u202F\
-                V - <>\n{% elif s == 'verylow' %}\n    {{ \"%.2f\" | format(v | float)\
-                \ }}\u202FV \u2014 \U0001FAAB!!\n{% elif s == 'low' %}\n    {{ \"\
-                %.2f\" | format(v | float) }}\u202FV \u2014 \U0001FAAB\n{% elif s\
-                \ == 'discharging' %}\n    {{ \"%.2f\" | format(v | float) }}\u202F\
-                V \u2014 \u2935\n{% elif s == 'resting' %}\n    {{ \"%.2f\" | format(v\
-                \ | float) }}\u202FV \u2014 \n{% elif s == 'charging' %}\n    {{ \"\
-                %.2f\" | format(v | float) }}\u202FV \u2014 \u26A1\n{% else %} unknown\
-                \ {% endif %}\n"
-              type: custom:mushroom-template-card
-            - card:
-                card_mod:
-                  style: "ha-card {\n  {% set s = states('sensor.pixel_4a_battery_state')\
-                    \ %}\n  {% if s == 'charging' %}\n    --c: green;\n  {% else %}\n\
-                    \    --c: red;\n  {% endif %}\n  border: 3px solid var(--c);\n\
-                    \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
-                    \  border-radius: 8px;\n  padding: 2px 4px;\n}\n"
-                icon: mdi:power-socket-au
-                icon_color: "{% set s = states('sensor.pixel_4a_battery_state') %}\
-                  \ {% if s == 'charging' %}\n  green\n{% else %}\n  red\n{% endif\
-                  \ %}\n"
-                primary: Shore Power
-                secondary: "{% set s = states('sensor.pixel_4a_battery_state') %}\
-                  \ {% if s == 'charging' %}\n  Connected\n{% else %}\n  Not Connected\n\
-                  {% endif %}\n"
-                type: custom:mushroom-template-card
-              conditions:
-              - condition: or
-                conditions:
-                - condition: state
-                  entity: sensor.start_battery_state
-                  state_not: charging
-                - condition: state
-                  entity: sensor.house_battery_state
-                  state_not: charging
-              type: conditional
-            - area: system
-              card_mod:
-                style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
-                  \ !important;\n  --c: {% set s = states('sensor.house_battery_state')\
-                  \ %}\n    {% if s == 'charging' %} green\n    {% elif s == 'resting'\
-                  \ %} blue\n    {% elif s == 'discharging' %} orange\n    {% elif\
-                  \ s == 'low' %} yellow\n    {% elif s == 'veryLow' %} red\n    {%\
-                  \ elif s == 'disconnected' %} grey\n    {% else %} grey\n    {%\
-                  \ endif %};\n  border: 3px solid var(--c);\n  background-color:\
-                  \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
-                  \ 8px;\n  padding: 0px 1px;\n\n}\n"
-              entity: sensor.system_12v_battery_monitor_house_battery_voltage
-              features_position: bottom
-              icon: mdi:car-battery
-              icon_color: '{% set s = states(''sensor.house_battery_state'') %} {%
-                if s == ''charging'' %} green {% elif s == ''resting'' %} blue {%
-                elif s == ''discharging'' %} orange {% elif s == ''low'' %} yellow
-                {% elif s == ''veryLow'' %} red {% elif s == ''disconnected'' %} grey
-                {% else %} grey {% endif %}
-
-                '
-              primary: House Battery
-              secondary: "{% set v = states('sensor.system_12v_battery_monitor_house_battery_voltage')\
-                \ %} {% set s = states('sensor.house_battery_state') %} {% if s ==\
-                \ 'disconnected' %}  \u26D4\u26D4 {% elif s == 'verylow' %}\n    {{\
-                \ \"%.2f\" | format(v | float) }}\u202FV \u2014 \U0001FAAB!!\n{% elif\
-                \ s == 'low' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014\
-                \ \U0001FAAB\n{% elif s == 'discharging' %}\n    {{ \"%.2f\" | format(v\
-                \ | float) }}\u202FV \u2014 \u21E3\n{% elif s == 'resting' %}\n  \
-                \  {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \n{% elif s ==\
-                \ 'charging' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014\
-                \ \u26A1\u26A1\n{% else %} unknown {% endif %}\n"
-              type: custom:mushroom-template-card
-            type: horizontal-stack
-          - cards:
-            - card_mod:
-                style: "ha-card {\n  {% set t = states('sensor.deck_temperature_f')\
-                  \ | float(0) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
-                  \ srgb, lightblue 20%, transparent);\n    border: 3px solid lightblue;\n\
-                  \  {% elif t < 37 %}\n    background-color: color-mix(in srgb, blue\
-                  \ 20%, transparent);\n    border: 3px solid blue;\n  {% elif t >\
-                  \ 85 %}\n    background-color: color-mix(in srgb, gold 20%, transparent);\n\
-                  \    border: 3px solid gold;\n  {% elif t > 95 %}\n    background-color:\
-                  \ color-mix(in srgb, red 20%, transparent);\n    border: 3px solid\
-                  \ red;\n  {% else %}\n    background-color: color-mix(in srgb, green\
-                  \ 10%, transparent);\n    border: 3px solid green;\n  {% endif %}\n\
-                  \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              color: '{% set t = states(''sensor.deck_temperature_f'') | float(0)
-                %} {% if t < 33 %} blue {% elif t < 37 %} blue {% elif t > 85 %} amber
-                {% elif t > 95 %} red {% else %} green {% endif %}
-
-                '
-              features_position: bottom
-              icon: mdi:thermometer
-              primary: Helm Temperature
-              secondary: "{% set t = states('sensor.deck_temperature_f') | float(0)\
-                \ %} {{ t }} \xB0F\n"
-              type: custom:mushroom-template-card
-              vertical: true
-            - card:
-                card_mod:
-                  style: "ha-card {\n  {% set cam = states('sensor.deck_cam_online')\
-                    \ %}\n  {% set hum = states('sensor.deck_humidity') | float %}\n\
-                    \  {% if hum > 80 %}\n    --c: red;\n  {% elif cam == 'Offline'\
-                    \ or (hum > 70) %}\n    --c: orange;\n  {% else %}\n    --c: green;\n\
-                    \  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
-                    \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
-                    \ 8px;\n  padding: 0px 0px;\n}\n  \n"
-                color: "{% set cam = states('sensor.deck_cam_online') %}   {% set\
-                  \ hum = states('sensor.deck_humidity') | float %}  {% if hum > 80\
-                  \ %}     \n  red\n{% elif cam == 'Offline' or (hum > 70) %}\n  amber\n\
-                  {% else %}\n  green\n{% endif %}\n"
-                features_position: bottom
-                icon: mdi:alert
-                primary: null
-                secondary: "{% set cam = states('sensor.deck_cam_online') %}\n{% set\
-                  \ hum = states('sensor.deck_humidity') | float %}\n{% set ns = namespace(text='')\
-                  \ %}\n\n{% if cam == 'Offline' %}\n  {% set ns.text = ns.text +\
-                  \ 'Camera Offline' %}\n{% endif %}\n\n{% if hum > 70 %}\n  {% if\
-                  \ ns.text %}\n    {% set ns.text = ns.text + '\\n' %}\n  {% endif\
-                  \ %}\n  {% set ns.text = ns.text + 'Humidity High' %}\n{% endif\
-                  \ %}\n{{ ns.text }}\n    \n"
-                type: custom:mushroom-template-card
-                vertical: true
-              conditions:
-              - condition: or
-                conditions:
-                - above: 70
-                  condition: numeric_state
-                  entity: sensor.deck_humidity
-                - condition: state
-                  entity: sensor.deck_cam_online
-                  state: Offline
-              type: conditional
-            - card_mod:
-                style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
-                  \ !important;\n  {% set h = states('sensor.deck_humidity') | float(0)\
-                  \ %}\n  {% if h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n\
-                  \    --c: green;\n  {% elif h < 75 %}\n    --c: gold;\n  {% else\
-                  \ %}\n    --c: red;\n  {% endif %}\n  border: 3px solid var(--c);\n\
-                  \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
-                  \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              color: "{% set h = states('sensor.deck_humidity') | float(0) %} {% if\
-                \ h < 40 %}\n  blue\n{% elif h < 60 %}\n  green\n{% elif h < 75 %}\n\
-                \  amber\n{% else %}\n  red\n{% endif %}\n"
-              features_position: bottom
-              icon: mdi:water-percent
-              primary: Helm Humidity
-              secondary: "{% set h = states('sensor.deck_humidity') | float(0) %}\
-                \ {% set t = states('sensor.deck_temperature_f') | float(0) %} {#\
-                \ Convert F \u2192 C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula\
-                \ for dew point #} {% set a = 17.62 %} {% set b = 243.12 %} {% set\
-                \ gamma = (a * tc / (b + tc)) + (h/100) | log %} {% set dp_c = (b\
-                \ * gamma) / (a - gamma) %} {# Convert back to F #} {% set dp_f =\
-                \ (dp_c * 9/5) + 32 %} {{ h | round(0) }}% \u2022 {{ dp_f | round(1)\
-                \ }}\xB0F\n"
-              type: custom:mushroom-template-card
-              vertical: true
-            type: horizontal-stack
+              '
+            features_position: bottom
+            icon: mdi:water-pump
+            primary: Pump 1
+            secondary: "{{ states('sensor.system_pump_switch_sensor_pump_1_cycles')\
+              \ | int }} - \u21BB\n"
+            type: custom:mushroom-template-card
           - card:
               card_mod:
                 style: "ha-card {\n  background-color: color-mix(in srgb, orange 20%,\
-                  \ transparent);\n  border: 2px solid orange;\n  border-radius: 6px;\n\
-                  \  padding: 0px;\n}\n"
-              color: amber
+                  \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n}\n"
               features_position: bottom
-              icon: mdi:alert
-              primary: Deck Camera Offline
+              multiline_secondary: true
+              secondary: '{% set today = states(''sensor.pump_1_on_time_today'') |
+                float(0) %}
+
+                {% set week = states(''sensor.pump_1_on_time_this_week'') | float(0)
+                %}
+
+                {% set today_h = (today * 60) // 60 %}
+
+                {% set today_m = (today * 60) % 60 %}
+
+                {% set week_h = (week * 60) // 60 %}
+
+                {% set week_m = (week * 60) % 60 %}
+
+                Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
+                }} h
+
+                Week : {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m) }}
+                h
+
+                '
               type: custom:mushroom-template-card
             conditions:
             - condition: state
-              entity: sensor.deck_cam_online
-              state: 'off'
+              entity: binary_sensor.pump_1_high_runtime
+              state: 'on'
             type: conditional
+          type: vertical-stack
+        - cards:
+          - card_mod:
+              style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_2_on','on')\
+                \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid var(--c);\n\
+                \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+                \  border-radius: 8px;\n  padding: 0px 12px;\n}\n"
+            color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_2_on'',''on'')
+              %} {{ ''amber'' if on else ''gray'' }}
+
+              '
+            features_position: bottom
+            icon: mdi:water-pump
+            primary: Pump 2
+            secondary: "{{ states('sensor.system_pump_switch_sensor_pump_2_cycles')\
+              \ | int }} - \u21BB\n"
+            type: custom:mushroom-template-card
           - card:
-              card:
-                camera_view: live
-                card_mod:
-                  style: "ha-card {\n  border: 3px solid orange;\n  border-radius:\
-                    \ 8px;\n  background-color: color-mix(in srgb, red 10%, transparent);\n\
-                    \  padding: 0px;\n}\n"
-                entity: camera.10_0_12_107
-                fit_mode: cover
-                name: Deck Video Stream
-                show_name: true
-                show_state: false
-                type: picture-entity
-              conditions:
-              - condition: state
-                entity: sensor.deck_cam_online
-                state_not: 'off'
-              type: conditional
-            conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity: binary_sensor.pump_1_high_runtime
-                state: 'on'
-              - condition: state
-                entity: binary_sensor.pump_2_high_runtime
-                state: 'on'
-              - condition: state
-                entity: binary_sensor.pump_3_high_runtime
-                state: 'on'
-              - condition: state
-                entity: input_boolean.show_bilge_camera
-                state: 'on'
-            type: conditional
-          - cards:
-            - card_mod:
-                style: "ha-card {\n  {% set t = states('sensor.cabin_temperature_f')\
-                  \ | float(1) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
-                  \ srgb, lightblue 20%, transparent);\n    border: 3px solid lightblue;\n\
-                  \  {% elif t < 37 %}\n    background-color: color-mix(in srgb, blue\
-                  \ 20%, transparent);\n    border: 3px solid blue;\n  {% elif t >\
-                  \ 85 %}\n    background-color: color-mix(in srgb, gold 20%, transparent);\n\
-                  \    border: 3px solid gold;\n  {% elif t > 95 %}\n    background-color:\
-                  \ color-mix(in srgb, red 20%, transparent);\n    border: 3px solid\
-                  \ red;\n  {% else %}\n    background-color: color-mix(in srgb, green\
-                  \ 10%, transparent);\n    border: 3px solid green;\n  {% endif %}\n\
-                  \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              color: '{% set t = states(''sensor.cabin_temperature_f'') | float(1)
-                %} {% if t < 33 %} blue {% elif t < 37 %} blue {% elif t > 85 %} amber
-                {% elif t > 95 %} red {% else %} green {% endif %}
+              card_mod:
+                style: "ha-card {\n  background-color: color-mix(in srgb, orange 20%,\
+                  \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n}\n"
+              features_position: bottom
+              multiline_secondary: true
+              secondary: '{% set today = states(''sensor.pump_2_on_time_today'') |
+                float(0) %}
+
+                {% set week = states(''sensor.pump_2_on_time_this_week'') | float(0)
+                %}
+
+                {% set today_h = (today * 60) // 60 %}
+
+                {% set today_m = (today * 60) % 60 %}
+
+                {% set week_h = (week * 60) // 60 %}
+
+                {% set week_m = (week * 60) % 60 %}
+
+                Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
+                }} h
+
+                Week : {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m) }}
+                h
 
                 '
-              features_position: bottom
-              icon: mdi:thermometer
-              primary: Cabin Temperature
-              secondary: "{% set t = states('sensor.cabin_temperature_f') | float(1)\
-                \ %} {{ t }} \xB0F\n"
               type: custom:mushroom-template-card
-              vertical: true
-            - card:
-                cards:
-                - card_mod:
-                    style: "ha-card {\n  --c: {% set hum = states('sensor.cabin_humidity')\
-                      \ | float %}\n       {% set open = is_state('binary_sensor.cabin_hatch',\
-                      \ 'on') %}\n       {% if hum > 80 %}red\n       {% elif open\
-                      \ or hum > 70 %}orange\n       {% else %}green\n       {% endif\
-                      \ %};\n  border: 3px solid var(--c);\n  background-color: color-mix(in\
-                      \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px 8px\
-                      \ 0 0;\n  box-shadow: none;\n  padding-bottom: 4px;\n}\n"
-                  color: "{% set tamper = is_state('binary_sensor.cabin_hatch_tamper',\
-                    \ 'on') %} {% set open = is_state('binary_sensor.cabin_hatch',\
-                    \ 'on') %} {% set hum = states('sensor.cabin_humidity') | float\
-                    \ %} {% if hum > 80 %}\n  red\n{% elif open or hum > 70 %}\n \
-                    \ orange\n{% else %}\n  green\n{% endif %}\n"
-                  features_position: bottom
-                  icon: mdi:alert
-                  primary: Cabin Hatch
-                  type: custom:mushroom-template-card
-                  vertical: true
-                - card_mod:
-                    style: "ha-card {\n  {% set hum = states('sensor.cabin_humidity')\
-                      \ | float %}\n  {% set open = is_state('binary_sensor.cabin_hatch',\
-                      \ 'on') %}\n  {% if hum > 80 %}\n    --c: red;\n  {% elif open\
-                      \ or hum > 70 %}\n    --c: orange;\n  {% else %}\n    --c: green;\n\
-                      \  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
-                      \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
-                      \ 8px;\n  padding: 4px 6px;\n  box-shadow: none;\n  font-size:\
-                      \ 12pt;        /* match Mushroom text size */\n  line-height:\
-                      \ 1.3;\n  text-align: left;\n}\n"
-                  content: '{% if is_state(''binary_sensor.cabin_hatch_tamper'', ''on'')
-                    %}
-
-                    !! Tamper !!
-
-                    {% endif %}
-
-                    {% if is_state(''binary_sensor.cabin_hatch'', ''on'') %}
-
-                    !! Open !!
-
-                    {% endif %}
-
-                    {% if states(''sensor.cabin_humidity'') | float > 40 %}
-
-                    !! Humidity !!
-
-                    {% endif %}
-
-                    {% if is_state(''sensor.cabin_motion'', ''on'') %}
-
-                    !! Motion !!
-
-                    {% endif %}
-
-                    '
-                  type: markdown
-                type: vertical-stack
-              conditions:
-              - condition: or
-                conditions:
-                - above: 70
-                  condition: numeric_state
-                  entity: sensor.cabin_humidity
-                - condition: state
-                  entity: binary_sensor.cabin_hatch_tamper
-                  state: 'on'
-                - condition: state
-                  entity: binary_sensor.cabin_hatch
-                  state: 'on'
-              type: conditional
-            - card_mod:
-                style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px\
-                  \ !important;\n  {% set h = states('sensor.cabin_humidity') | float(0)\
-                  \ %}\n  {% if h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n\
-                  \    --c: green;\n  {% elif h < 75 %}\n    --c: gold;\n  {% else\
-                  \ %}\n    --c: red;\n  {% endif %}\n  border: 3px solid var(--c);\n\
-                  \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
-                  \  border-radius: 8px;\n  padding: 0px 1px;\n}\n"
-              color: "{% set h = states('sensor.cabin_humidity') | float(0) %} {%\
-                \ if h < 40 %}\n  blue\n{% elif h < 60 %}\n  green\n{% elif h < 75\
-                \ %}\n  amber\n{% else %}\n  red\n{% endif %}\n"
-              features_position: bottom
-              icon: mdi:water-percent
-              primary: Cabin Humidity
-              secondary: "{% set h = states('sensor.cabin_humidity') | float(0) %}\
-                \ {% set t = states('sensor.cabin_temperature_f') | float(0) %} {#\
-                \ Convert F \u2192 C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula\
-                \ for dew point #} {% set a = 17.62 %} {% set b = 243.12 %} {% set\
-                \ gamma = (a * tc / (b + tc)) + (h/100) | log %} {% set dp_c = (b\
-                \ * gamma) / (a - gamma) %} {# Convert back to F #} {% set dp_f =\
-                \ (dp_c * 9/5) + 32 %} {{ h | round(0) }}% \u2022 {{ dp_f | round(1)\
-                \ }}\xB0F\n"
-              type: custom:mushroom-template-card
-              vertical: true
-            type: horizontal-stack
+            conditions:
+            - condition: state
+              entity: binary_sensor.pump_2_high_runtime
+              state: 'on'
+            type: conditional
           type: vertical-stack
-        - color: amber
-          features_position: bottom
-          icon: mdi:map-marker
-          multiline_secondary: true
-          primary: Navigation
-          secondary: "Lat: {{ states('sensor.nav_latitude') }}\xB0   \nLon: {{ states('sensor.nav_longitude')\
-            \ }}\xB0\nCOG: {{ states('sensor.nav_cog') }}\xB0  \nSOG: {{ states('sensor.nav_sog')\
-            \ }} kn\nSrc: {{states('sensor.navigation_source') }}\n"
-          type: custom:mushroom-template-card
-        - card:
-            color: amber
+        - cards:
+          - card_mod:
+              style: "ha-card {\n  --c: {% set on = is_state('binary_sensor.system_pump_switch_sensor_pump_3_on','on')\
+                \ %}\n    {{ 'gold' if on else 'gray' }};\n  border: 3px solid var(--c);\n\
+                \  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+                \  border-radius: 8px;\n  padding: 0px 12px;\n}\n"
+            color: '{% set on = is_state(''binary_sensor.system_pump_switch_sensor_pump_3_on'',''on'')
+              %} {{ ''amber'' if on else ''gray'' }}
+
+              '
             features_position: bottom
-            icon: mdi:map-marker
-            multiline_secondary: true
-            primary: Navigation
-            secondary: "Lat: {{ states('sensor.latitude_source') }}\xB0   \nLon: {{\
-              \ states('sensor.longitude_source') }}\xB0\nCOG: {{ states('sensor.cog_source')\
-              \ }}\xB0  \nSOG: {{ states('sensor.sog_source') }} kn\nSrc: {{states('sensor.navigation_source')\
-              \ }}\n"
+            icon: mdi:water-pump
+            primary: Pump 3
+            secondary: "{{ states('sensor.system_pump_switch_sensor_pump_3_cycles')\
+              \ | int }} - \u21BB\n"
             type: custom:mushroom-template-card
+          - card:
+              card_mod:
+                style: "ha-card {\n  background-color: color-mix(in srgb, orange 20%,\
+                  \ transparent);\n  border-radius: 2px;\n  padding: 0px 12px;\n}\n"
+              features_position: bottom
+              multiline_secondary: true
+              secondary: '{% set today = states(''sensor.pump_3_on_time_today'') |
+                float(0) %}
+
+                {% set week = states(''sensor.pump_3_on_time_this_week'') | float(0)
+                %}
+
+                {% set today_h = (today * 60) // 60 %}
+
+                {% set today_m = (today * 60) % 60 %}
+
+                {% set week_h = (week * 60) // 60 %}
+
+                {% set week_m = (week * 60) % 60 %}
+
+                Today: {{ "%02.0f"|format(today_h) }}:{{ "%02.0f"|format(today_m)
+                }} h
+
+                Week : {{ "%02.0f"|format(week_h) }}:{{ "%02.0f"|format(week_m) }}
+                h
+
+                '
+              type: custom:mushroom-template-card
+            conditions:
+            - condition: state
+              entity: binary_sensor.pump_3_high_runtime
+              state: 'on'
+            type: conditional
+          type: vertical-stack
+        type: horizontal-stack
+      - cards:
+        - card_mod:
+            style: "ha-card {\n  {% set t = states('sensor.bilge_temperature_f') |\
+              \ float(0) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
+              \ srgb, lightblue 20%, transparent);\n    border: 3px solid lightblue;\n\
+              \  {% elif t < 37 %}\n    background-color: color-mix(in srgb, blue\
+              \ 20%, transparent);\n    border: 3px solid blue;\n  {% elif t > 85\
+              \ %}\n    background-color: color-mix(in srgb, gold 20%, transparent);\n\
+              \    border: 3px solid gold;\n  {% elif t > 95 %}\n    background-color:\
+              \ color-mix(in srgb, red 20%, transparent);\n    border: 3px solid red;\n\
+              \  {% else %}\n    background-color: color-mix(in srgb, green 10%, transparent);\n\
+              \    border: 3px solid green;\n  {% endif %}\n  border-radius: 8px;\n\
+              \  padding: 0px 1px;\n}\n"
+          color: '{% set t = states(''sensor.bilge_temperature_f'') | float(0) %}
+            {% if t < 33 %} blue {% elif t < 37 %} blue {% elif t > 85 %} amber {%
+            elif t > 95 %} red {% else %} green {% endif %}
+
+            '
+          features_position: bottom
+          icon: mdi:thermometer
+          primary: Bilge Temperature
+          secondary: "{% set t = states('sensor.bilge_temperature_f') | float(0) %}\
+            \ {{ t }} \xB0F\n"
+          type: custom:mushroom-template-card
+          vertical: true
+        - card:
+            card_mod:
+              style: "ha-card {\n  {% set cam = states('sensor.bilge_cam_online')\
+                \ %}\n  {% set hum = states('sensor.bilge_humidity') | float %}\n\
+                \  {% if hum > 80 %}\n    --c: red;\n  {% elif cam == 'Offline' or\
+                \ (hum > 70) %}\n    --c: orange;\n  {% else %}\n    --c: green;\n\
+                \  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
+                \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
+                \ 8px;\n  padding: 0px 0px;\n}\n"
+            color: "{% set cam = states('sensor.bilge_cam_online') %}  {% set hum\
+              \ = states('sensor.bilge_humidity') | float %}  {% if hum > 80 %}  \
+              \   \n  red\n{% elif cam == 'Offline' or (hum > 70) %}\n  amber\n{%\
+              \ else %}\n  green\n{% endif %}\n"
+            features_position: bottom
+            icon: mdi:alert
+            primary: Bilge
+            secondary: "{% set cam = states('sensor.bilge_cam_online') %}\n{% set\
+              \ hum = states('sensor.bilge_humidity') | float %}\n{% set ns = namespace(text='')\
+              \ %}\n\n{% if cam == 'Offline' %}\n  {% set ns.text = ns.text + 'Camera\
+              \ Offline' %}\n{% endif %}\n\n{% if hum > 70 %}\n  {% if ns.text %}\n\
+              \    {% set ns.text = ns.text + '\\n' %}\n  {% endif %}\n  {% set ns.text\
+              \ = ns.text + 'Humidity High' %}\n{% endif %}\n{{ ns.text }}\n    \n"
+            type: custom:mushroom-template-card
+            vertical: true
           conditions:
-          - condition: state
-            entity: sensor.navigation_source
-            state: mixed
+          - condition: or
+            conditions:
+            - above: 70
+              condition: numeric_state
+              entity: sensor.bilge_humidity
+            - condition: state
+              entity: sensor.bilge_cam_online
+              state: Offline
           type: conditional
         - card_mod:
-            style: "ha-card {\n  padding: 0;\n}\n.content {\n  padding: 16px;\n}\n"
-          extra_data: "<ha-map\n  style=\"height: 250px; width: 100%; border-radius:\
-            \ 12px; overflow: hidden;\"\n  .entities=${[\n    {entity: \"device_tracker.your_boat_tracker\"\
-            },\n    {name: \"Berth\", latitude: {{ secret('berth_latitude') }}, longitude:\
-            \ {{ secret('berth_longitude') }}}\n  ]}\n  zoom=\"17\"\n></ha-map>\n"
-          icon: mdi:sail-boat
-          icon_color: "{% if states('sensor.boat_at_berth') == 'Yes \u2014 at berth'\
-            \ %}\n  green\n{% elif states('sensor.boat_at_berth') == 'No \u2014 boat\
-            \ has moved' %}\n  red\n{% else %}\n  amber\n{% endif %}\n"
-          multiline_secondary: true
-          primary: Boat Location
-          secondary: "Source: {{ states('sensor.navigation_source') }} \nDistance\
-            \ from berth: {{ states('sensor.boat_distance_from_berth_nm') }} km \n\
-            At berth: {{ states('sensor.boat_at_berth') }}\n"
+            style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px !important;\n\
+              \  {% set h = states('sensor.deck_humidity') | float(0) %}\n  {% if\
+              \ h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n    --c: green;\n\
+              \  {% elif h < 75 %}\n    --c: gold;\n  {% else %}\n    --c: red;\n\
+              \  {% endif %}\n  border: 3px solid var(--c);\n  background-color: color-mix(in\
+              \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px;\n  padding:\
+              \ 0px 1px;\n}\n"
+          color: "{% set h = states('sensor.bilge_humidity') | float(0) %} {% if h\
+            \ < 40 %}\n  blue\n{% elif h < 60 %}\n  green\n{% elif h < 75 %}\n  amber\n\
+            {% else %}\n  red\n{% endif %}\n"
+          features_position: bottom
+          icon: mdi:water-percent
+          primary: Bilge Humidity
+          secondary: "{% set h = states('sensor.bilge_humidity') | float(0) %} {%\
+            \ set t = states('sensor.bilge_temperature_f') | float(0) %} {# Convert\
+            \ F \u2192 C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula for dew\
+            \ point #} {% set a = 17.62 %} {% set b = 243.12 %} {% set gamma = (a\
+            \ * tc / (b + tc)) + (h/100) | log %} {% set dp_c = (b * gamma) / (a -\
+            \ gamma) %} {# Convert back to F #} {% set dp_f = (dp_c * 9/5) + 32 %}\
+            \ {{ h | round(0) }}% \u2022 {{ dp_f | round(1) }}\xB0F\n"
           type: custom:mushroom-template-card
-        type: vertical-stack
+          vertical: true
+        type: horizontal-stack
+      - card:
+          card:
+            camera_view: live
+            card_mod:
+              style: "ha-card {\n  border: 3px solid orange;\n  border-radius: 8px;\n\
+                \  background-color: color-mix(in srgb, red 10%, transparent);\n \
+                \ padding: 0px;\n}\n"
+            entity: camera.bilge_bilge_camera
+            fit_mode: cover
+            name: Bilge Video Stream
+            show_name: true
+            show_state: false
+            type: picture-entity
+          conditions:
+          - condition: state
+            entity: binary_sensor.bilge_cam_online
+            state_not: 'off'
+          type: conditional
+        conditions:
+        - condition: or
+          conditions:
+          - condition: state
+            entity: binary_sensor.pump_1_high_runtime
+            state: 'on'
+          - condition: state
+            entity: binary_sensor.pump_2_high_runtime
+            state: 'on'
+          - condition: state
+            entity: binary_sensor.pump_3_high_runtime
+            state: 'on'
+          - condition: state
+            entity: input_boolean.show_bilge_camera
+            state: 'on'
+        type: conditional
+      - cards:
+        - area: system
+          card:
+            card_mod:
+              style: "ha-card {\n  border: 2px solid var(--primary-color);\n  border-radius:\
+                \ 8px;\n  padding: 6px;\n}\n:host {\n  --mush-primary-font-size: 18px;\n\
+                \  --mush-secondary-font-size: 14px;\n  --mush-font-family: \"Montserrat\"\
+                , sans-serif;\n  --mush-primary-font-weight: 600;\n  --mush-secondary-font-weight:\
+                \ 400;\n}\n"
+            icon: mdi:battery
+            icon_color: "{% if states('sensor.start_battery_voltage') | float < 12.0\n\
+              \      or states('sensor.start_battery_state') == 'verylow'\n      or\
+              \ states('sensor.house_battery_state == 'low'\n      or states('sensor.house_battery_state\
+              \ == 'verylow' %}\n  red\n{% elif states('sensor.start_battery_status')\
+              \ == 'discharging'\n      or states('sensor.house_battery_status') ==\
+              \ 'discharging' %}\n  amber\n{% if states('sensor.start_battery_voltage')\
+              \ | float < 12.0\n      or states('sensor.house_battery_voltage') |\
+              \ float < 12.0 %}\n  red\n{% else %}\n  green\n{% endif %}\n"
+            primary: "{% if states('sensor.start_battery_state') == 'low'\n      or\
+              \ states('sensor.start_battery_state') == 'verylow'\n      or states('sensor.house_battery_state\
+              \ == 'low'\n      or states('sensor.house_battery_state == 'verylow'\
+              \ %}\n  \U0001F534 Battery voltage low!\n{% elif states('sensor.start_battery')\
+              \ == 'discharging'\n      or states('sensor.house_battery') == 'discharging'\
+              \ %}\n  \u26A0\uFE0F Batteries are discharging\n{% else %}\n  \u2705\
+              \ Batteries OK\n{% endif %}\n"
+            secondary: "Start: {{ states('sensor.start_battery_voltage') }}\u202F\
+              V | House: {{ states('sensor.house_battery_voltage') }}\u202FV\n"
+            type: custom:mushroom-template-card
+          card_mod:
+            style: "ha-card {\n  --c: {% set s = states('sensor.start_battery_state')\
+              \ %}\n    {% if s == 'charging' %} green\n    {% elif s == 'resting'\
+              \ %} blue\n    {% elif s == 'discharging' %} orange\n    {% elif s ==\
+              \ 'low' %} yellow\n    {% elif s == 'veryLow' %} red\n    {% elif s\
+              \ == 'disconnected' %} grey\n    {% else %} grey\n    {% endif %};\n\
+              \  border: 3px solid var(--c);\n  background-color: color-mix(in srgb,\
+              \ var(--c) 10%, transparent);              border-radius: 12px;\n  border-radius:\
+              \ 8px;\n  padding: 0px 1px;\n}\n"
+          entity: sensor.system_12v_battery_monitor_starting_battery_voltage
+          features_position: bottom
+          icon: mdi:car-battery
+          icon_color: '{% set s = states(''sensor.start_battery_state'') %} {% if
+            s == ''charging'' %} green {% elif s == ''resting'' %} blue {% elif s
+            == ''discharging'' %} orange {% elif s == ''low'' %} yellow {% elif s
+            == ''veryLow'' %} red {% elif s == ''disconnected'' %} grey {% else %}
+            grey {% endif %}
+
+            '
+          primary: Start Battery
+          secondary: "{% set v = states('sensor.system_12v_battery_monitor_starting_battery_voltage')\
+            \ %} {% set s = states('sensor.start_battery_state') %} {% if s == 'disconnected'\
+            \ %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV - <>\n{% elif s ==\
+            \ 'verylow' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \U0001FAAB\
+            !!\n{% elif s == 'low' %}\n    {{ \"%.2f\" | format(v | float) }}\u202F\
+            V \u2014 \U0001FAAB\n{% elif s == 'discharging' %}\n    {{ \"%.2f\" |\
+            \ format(v | float) }}\u202FV \u2014 \u2935\n{% elif s == 'resting' %}\n\
+            \    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \n{% elif s == 'charging'\
+            \ %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014 \u26A1\n{%\
+            \ else %} unknown {% endif %}\n"
+          type: custom:mushroom-template-card
+        - card:
+            card_mod:
+              style: "ha-card {\n  {% set s = states('sensor.pixel_4a_battery_state')\
+                \ %}\n  {% if s == 'charging' %}\n    --c: green;\n  {% else %}\n\
+                \    --c: red;\n  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
+                \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
+                \ 8px;\n  padding: 2px 4px;\n}\n"
+            icon: mdi:power-socket-au
+            icon_color: "{% set s = states('sensor.pixel_4a_battery_state') %} {%\
+              \ if s == 'charging' %}\n  green\n{% else %}\n  red\n{% endif %}\n"
+            primary: Shore Power
+            secondary: "{% set s = states('sensor.pixel_4a_battery_state') %} {% if\
+              \ s == 'charging' %}\n  Connected\n{% else %}\n  Not Connected\n{% endif\
+              \ %}\n"
+            type: custom:mushroom-template-card
+          conditions:
+          - condition: or
+            conditions:
+            - condition: state
+              entity: sensor.start_battery_state
+              state_not: charging
+            - condition: state
+              entity: sensor.house_battery_state
+              state_not: charging
+          type: conditional
+        - area: system
+          card_mod:
+            style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px !important;\n\
+              \  --c: {% set s = states('sensor.house_battery_state') %}\n    {% if\
+              \ s == 'charging' %} green\n    {% elif s == 'resting' %} blue\n   \
+              \ {% elif s == 'discharging' %} orange\n    {% elif s == 'low' %} yellow\n\
+              \    {% elif s == 'veryLow' %} red\n    {% elif s == 'disconnected'\
+              \ %} grey\n    {% else %} grey\n    {% endif %};\n  border: 3px solid\
+              \ var(--c);\n  background-color: color-mix(in srgb, var(--c) 10%, transparent);\n\
+              \  border-radius: 8px;\n  padding: 0px 1px;\n\n}\n"
+          entity: sensor.system_12v_battery_monitor_house_battery_voltage
+          features_position: bottom
+          icon: mdi:car-battery
+          icon_color: '{% set s = states(''sensor.house_battery_state'') %} {% if
+            s == ''charging'' %} green {% elif s == ''resting'' %} blue {% elif s
+            == ''discharging'' %} orange {% elif s == ''low'' %} yellow {% elif s
+            == ''veryLow'' %} red {% elif s == ''disconnected'' %} grey {% else %}
+            grey {% endif %}
+
+            '
+          primary: House Battery
+          secondary: "{% set v = states('sensor.system_12v_battery_monitor_house_battery_voltage')\
+            \ %} {% set s = states('sensor.house_battery_state') %} {% if s == 'disconnected'\
+            \ %}  \u26D4\u26D4 {% elif s == 'verylow' %}\n    {{ \"%.2f\" | format(v\
+            \ | float) }}\u202FV \u2014 \U0001FAAB!!\n{% elif s == 'low' %}\n    {{\
+            \ \"%.2f\" | format(v | float) }}\u202FV \u2014 \U0001FAAB\n{% elif s\
+            \ == 'discharging' %}\n    {{ \"%.2f\" | format(v | float) }}\u202FV \u2014\
+            \ \u21E3\n{% elif s == 'resting' %}\n    {{ \"%.2f\" | format(v | float)\
+            \ }}\u202FV \u2014 \n{% elif s == 'charging' %}\n    {{ \"%.2f\" | format(v\
+            \ | float) }}\u202FV \u2014 \u26A1\u26A1\n{% else %} unknown {% endif\
+            \ %}\n"
+          type: custom:mushroom-template-card
+        type: horizontal-stack
+      - cards:
+        - card_mod:
+            style: "ha-card {\n  {% set t = states('sensor.deck_temperature_f') |\
+              \ float(0) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
+              \ srgb, lightblue 20%, transparent);\n    border: 3px solid lightblue;\n\
+              \  {% elif t < 37 %}\n    background-color: color-mix(in srgb, blue\
+              \ 20%, transparent);\n    border: 3px solid blue;\n  {% elif t > 85\
+              \ %}\n    background-color: color-mix(in srgb, gold 20%, transparent);\n\
+              \    border: 3px solid gold;\n  {% elif t > 95 %}\n    background-color:\
+              \ color-mix(in srgb, red 20%, transparent);\n    border: 3px solid red;\n\
+              \  {% else %}\n    background-color: color-mix(in srgb, green 10%, transparent);\n\
+              \    border: 3px solid green;\n  {% endif %}\n  border-radius: 8px;\n\
+              \  padding: 0px 1px;\n}\n"
+          color: '{% set t = states(''sensor.deck_temperature_f'') | float(0) %} {%
+            if t < 33 %} blue {% elif t < 37 %} blue {% elif t > 85 %} amber {% elif
+            t > 95 %} red {% else %} green {% endif %}
+
+            '
+          features_position: bottom
+          icon: mdi:thermometer
+          primary: Helm Temperature
+          secondary: "{% set t = states('sensor.deck_temperature_f') | float(0) %}\
+            \ {{ t }} \xB0F\n"
+          type: custom:mushroom-template-card
+          vertical: true
+        - card:
+            card_mod:
+              style: "ha-card {\n  {% set cam = states('sensor.deck_cam_online') %}\n\
+                \  {% set hum = states('sensor.deck_humidity') | float %}\n  {% if\
+                \ hum > 80 %}\n    --c: red;\n  {% elif cam == 'Offline' or (hum >\
+                \ 70) %}\n    --c: orange;\n  {% else %}\n    --c: green;\n  {% endif\
+                \ %}\n  border: 3px solid var(--c);\n  background-color: color-mix(in\
+                \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px;\n  padding:\
+                \ 0px 0px;\n}\n  \n"
+            color: "{% set cam = states('sensor.deck_cam_online') %}   {% set hum\
+              \ = states('sensor.deck_humidity') | float %}  {% if hum > 80 %}   \
+              \  \n  red\n{% elif cam == 'Offline' or (hum > 70) %}\n  amber\n{% else\
+              \ %}\n  green\n{% endif %}\n"
+            features_position: bottom
+            icon: mdi:alert
+            primary: null
+            secondary: "{% set cam = states('sensor.deck_cam_online') %}\n{% set hum\
+              \ = states('sensor.deck_humidity') | float %}\n{% set ns = namespace(text='')\
+              \ %}\n\n{% if cam == 'Offline' %}\n  {% set ns.text = ns.text + 'Camera\
+              \ Offline' %}\n{% endif %}\n\n{% if hum > 70 %}\n  {% if ns.text %}\n\
+              \    {% set ns.text = ns.text + '\\n' %}\n  {% endif %}\n  {% set ns.text\
+              \ = ns.text + 'Humidity High' %}\n{% endif %}\n{{ ns.text }}\n    \n"
+            type: custom:mushroom-template-card
+            vertical: true
+          conditions:
+          - condition: or
+            conditions:
+            - above: 70
+              condition: numeric_state
+              entity: sensor.deck_humidity
+            - condition: state
+              entity: sensor.deck_cam_online
+              state: Offline
+          type: conditional
+        - card_mod:
+            style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px !important;\n\
+              \  {% set h = states('sensor.deck_humidity') | float(0) %}\n  {% if\
+              \ h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n    --c: green;\n\
+              \  {% elif h < 75 %}\n    --c: gold;\n  {% else %}\n    --c: red;\n\
+              \  {% endif %}\n  border: 3px solid var(--c);\n  background-color: color-mix(in\
+              \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px;\n  padding:\
+              \ 0px 1px;\n}\n"
+          color: "{% set h = states('sensor.deck_humidity') | float(0) %} {% if h\
+            \ < 40 %}\n  blue\n{% elif h < 60 %}\n  green\n{% elif h < 75 %}\n  amber\n\
+            {% else %}\n  red\n{% endif %}\n"
+          features_position: bottom
+          icon: mdi:water-percent
+          primary: Helm Humidity
+          secondary: "{% set h = states('sensor.deck_humidity') | float(0) %} {% set\
+            \ t = states('sensor.deck_temperature_f') | float(0) %} {# Convert F \u2192\
+            \ C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula for dew point #}\
+            \ {% set a = 17.62 %} {% set b = 243.12 %} {% set gamma = (a * tc / (b\
+            \ + tc)) + (h/100) | log %} {% set dp_c = (b * gamma) / (a - gamma) %}\
+            \ {# Convert back to F #} {% set dp_f = (dp_c * 9/5) + 32 %} {{ h | round(0)\
+            \ }}% \u2022 {{ dp_f | round(1) }}\xB0F\n"
+          type: custom:mushroom-template-card
+          vertical: true
+        type: horizontal-stack
+      - card:
+          card_mod:
+            style: "ha-card {\n  background-color: color-mix(in srgb, orange 20%,\
+              \ transparent);\n  border: 2px solid orange;\n  border-radius: 6px;\n\
+              \  padding: 0px;\n}\n"
+          color: amber
+          features_position: bottom
+          icon: mdi:alert
+          primary: Deck Camera Offline
+          type: custom:mushroom-template-card
+        conditions:
+        - condition: state
+          entity: sensor.deck_cam_online
+          state: 'off'
+        type: conditional
+      - card:
+          card:
+            camera_view: live
+            card_mod:
+              style: "ha-card {\n  border: 3px solid orange;\n  border-radius: 8px;\n\
+                \  background-color: color-mix(in srgb, red 10%, transparent);\n \
+                \ padding: 0px;\n}\n"
+            entity: camera.10_0_12_107
+            fit_mode: cover
+            name: Deck Video Stream
+            show_name: true
+            show_state: false
+            type: picture-entity
+          conditions:
+          - condition: state
+            entity: sensor.deck_cam_online
+            state_not: 'off'
+          type: conditional
+        conditions:
+        - condition: or
+          conditions:
+          - condition: state
+            entity: input_boolean.show_deck_camera
+            state: 'on'
+        type: conditional
+      - cards:
+        - card_mod:
+            style: "ha-card {\n  {% set t = states('sensor.cabin_temperature_f') |\
+              \ float(1) %}\n  {% if t < 33 %}\n    background-color: color-mix(in\
+              \ srgb, lightblue 20%, transparent);\n    border: 3px solid lightblue;\n\
+              \  {% elif t < 37 %}\n    background-color: color-mix(in srgb, blue\
+              \ 20%, transparent);\n    border: 3px solid blue;\n  {% elif t > 85\
+              \ %}\n    background-color: color-mix(in srgb, gold 20%, transparent);\n\
+              \    border: 3px solid gold;\n  {% elif t > 95 %}\n    background-color:\
+              \ color-mix(in srgb, red 20%, transparent);\n    border: 3px solid red;\n\
+              \  {% else %}\n    background-color: color-mix(in srgb, green 10%, transparent);\n\
+              \    border: 3px solid green;\n  {% endif %}\n  border-radius: 8px;\n\
+              \  padding: 0px 1px;\n}\n"
+          color: '{% set t = states(''sensor.cabin_temperature_f'') | float(1) %}
+            {% if t < 33 %} blue {% elif t < 37 %} blue {% elif t > 85 %} amber {%
+            elif t > 95 %} red {% else %} green {% endif %}
+
+            '
+          features_position: bottom
+          icon: mdi:thermometer
+          primary: Cabin Temperature
+          secondary: "{% set t = states('sensor.cabin_temperature_f') | float(1) %}\
+            \ {{ t }} \xB0F\n"
+          type: custom:mushroom-template-card
+          vertical: true
+        - card:
+            cards:
+            - card_mod:
+                style: "ha-card {\n  --c: {% set hum = states('sensor.cabin_humidity')\
+                  \ | float %}\n       {% set open = is_state('binary_sensor.cabin_hatch',\
+                  \ 'on') %}\n       {% if hum > 80 %}red\n       {% elif open or\
+                  \ hum > 70 %}orange\n       {% else %}green\n       {% endif %};\n\
+                  \  border: 3px solid var(--c);\n  background-color: color-mix(in\
+                  \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px 8px 0\
+                  \ 0;\n  box-shadow: none;\n  padding-bottom: 4px;\n}\n"
+              color: "{% set tamper = is_state('binary_sensor.cabin_hatch_tamper',\
+                \ 'on') %} {% set open = is_state('binary_sensor.cabin_hatch', 'on')\
+                \ %} {% set hum = states('sensor.cabin_humidity') | float %} {% if\
+                \ hum > 80 %}\n  red\n{% elif open or hum > 70 %}\n  orange\n{% else\
+                \ %}\n  green\n{% endif %}\n"
+              features_position: bottom
+              icon: mdi:alert
+              primary: Cabin Hatch
+              type: custom:mushroom-template-card
+              vertical: true
+            - card_mod:
+                style: "ha-card {\n  {% set hum = states('sensor.cabin_humidity')\
+                  \ | float %}\n  {% set open = is_state('binary_sensor.cabin_hatch',\
+                  \ 'on') %}\n  {% if hum > 80 %}\n    --c: red;\n  {% elif open or\
+                  \ hum > 70 %}\n    --c: orange;\n  {% else %}\n    --c: green;\n\
+                  \  {% endif %}\n  border: 3px solid var(--c);\n  background-color:\
+                  \ color-mix(in srgb, var(--c) 10%, transparent);\n  border-radius:\
+                  \ 8px;\n  padding: 4px 6px;\n  box-shadow: none;\n  font-size: 12pt;\
+                  \        /* match Mushroom text size */\n  line-height: 1.3;\n \
+                  \ text-align: left;\n}\n"
+              content: '{% if is_state(''binary_sensor.cabin_hatch_tamper'', ''on'')
+                %}
+
+                !! Tamper !!
+
+                {% endif %}
+
+                {% if is_state(''binary_sensor.cabin_hatch'', ''on'') %}
+
+                !! Open !!
+
+                {% endif %}
+
+                {% if states(''sensor.cabin_humidity'') | float > 40 %}
+
+                !! Humidity !!
+
+                {% endif %}
+
+                {% if is_state(''sensor.cabin_motion'', ''on'') %}
+
+                !! Motion !!
+
+                {% endif %}
+
+                '
+              type: markdown
+            type: vertical-stack
+          conditions:
+          - condition: or
+            conditions:
+            - above: 70
+              condition: numeric_state
+              entity: sensor.cabin_humidity
+            - condition: state
+              entity: binary_sensor.cabin_hatch_tamper
+              state: 'on'
+            - condition: state
+              entity: binary_sensor.cabin_hatch
+              state: 'on'
+          type: conditional
+        - card_mod:
+            style: "ha-card {\n  --spacing: 0px !important;\n  --icon-size: 24px !important;\n\
+              \  {% set h = states('sensor.cabin_humidity') | float(0) %}\n  {% if\
+              \ h < 40 %}\n    --c: lightblue;\n  {% elif h < 60 %}\n    --c: green;\n\
+              \  {% elif h < 75 %}\n    --c: gold;\n  {% else %}\n    --c: red;\n\
+              \  {% endif %}\n  border: 3px solid var(--c);\n  background-color: color-mix(in\
+              \ srgb, var(--c) 10%, transparent);\n  border-radius: 8px;\n  padding:\
+              \ 0px 1px;\n}\n"
+          color: "{% set h = states('sensor.cabin_humidity') | float(0) %} {% if h\
+            \ < 40 %}\n  blue\n{% elif h < 60 %}\n  green\n{% elif h < 75 %}\n  amber\n\
+            {% else %}\n  red\n{% endif %}\n"
+          features_position: bottom
+          icon: mdi:water-percent
+          primary: Cabin Humidity
+          secondary: "{% set h = states('sensor.cabin_humidity') | float(0) %} {%\
+            \ set t = states('sensor.cabin_temperature_f') | float(0) %} {# Convert\
+            \ F \u2192 C #} {% set tc = (t - 32) * 5/9 %} {# Magnus formula for dew\
+            \ point #} {% set a = 17.62 %} {% set b = 243.12 %} {% set gamma = (a\
+            \ * tc / (b + tc)) + (h/100) | log %} {% set dp_c = (b * gamma) / (a -\
+            \ gamma) %} {# Convert back to F #} {% set dp_f = (dp_c * 9/5) + 32 %}\
+            \ {{ h | round(0) }}% \u2022 {{ dp_f | round(1) }}\xB0F\n"
+          type: custom:mushroom-template-card
+          vertical: true
+        type: horizontal-stack
+      - card:
+          circles:
+          - color: '#0077be'
+            fill: true
+            latitude: '{{ states(''sensor.anchorage_latitude'') }}'
+            longitude: '{{ states(''sensor.anchorage_longitude'') }}'
+            radius: '{{ states(''input_number.anchorage_radius'') }}'
+          default_zoom: 14
+          entities:
+          - entity: sensor.usb_location
+            icon: mdi:sail-boat
+            name: Boat
+          - entity: sensor.anchorage_location
+            icon: mdi:anchor
+            name: Anchorage
+          type: map
+        conditions:
+        - condition: state
+          entity: sensor.anchorage_distance
+          state_not: unknown
+        type: conditional
       type: grid
     title: Status
-    type: sections
-  - max_columns: 4
-    path: poo
-    sections:
-    - cards:
-      - auto_fit: true
-        cluster: true
-        default_zoom: 15
-        entities:
-        - entity: device_tracker.searun_usb_gps
-        - entity: zone.pedder_bay_marina
-        - entity: zone.pedder_bay_slip
-        fit_zones: true
-        grid_options:
-          columns: full
-          rows: 7
-        theme_mode: auto
-        type: map
-      type: grid
-    title: poo
-    type: sections
-  - path: ''
-    sections:
-    - cards:
-      - heading: Main Map and Zone Settings
-        type: heading
-      - aspect_ratio: 4x3
-        dark_mode: false
-        default_zoom: 18
-        entities:
-        - entity: zone.anchor_zone
-        - entity: device_tracker.boat_location
-        hours_to_show: 4
-        type: map
-      - entities:
-        - entity: number.anchor_zone_radius
-          icon: mdi:location-exit
-          name: Zone Radius
-        type: entities
-      type: grid
     type: sections

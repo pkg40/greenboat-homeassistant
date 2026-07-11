@@ -60,7 +60,7 @@ scene: !include_dir_merge_list scenes/
 template: !include_dir_merge_list templates/
 sensor: !include_dir_merge_list sensors/
 binary_sensor: !include_dir_merge_list binary_sensors/
-
+device_tracker: !include_dir_merge_list device_trackers
 zone manual: !include_dir_merge_list zones/
 
 automation: !include automations.yaml

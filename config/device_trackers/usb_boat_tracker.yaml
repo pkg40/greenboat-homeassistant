@@ -1,0 +1,6 @@
+- platform: template
+  trackers:
+    - name: "usb position"
+      latitude: "{{ states('sensor.usb_latitude') | float }}"
+      longitude: "{{ states('sensor.usb_longitude') | float }}"
+      source_type: gps

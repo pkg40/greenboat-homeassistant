@@ -27,10 +27,3 @@ items:
   show_in_sidebar: false
   title: Integrations
   url_path: dashboard-integrations
-- icon: mdi:anchor
-  id: dashboard_anchorage
-  mode: storage
-  require_admin: false
-  show_in_sidebar: true
-  title: Anchorage
-  url_path: dashboard-anchorage
