@@ -4,7 +4,7 @@ anchorage_latitude:
   max: 90
   step: 0.000001
   mode: box
-  initial: 48.45037
+  initial: 48.95037
 
 anchorage_longitude:
   name: Anchorage Longitude
@@ -12,7 +12,7 @@ anchorage_longitude:
   max: 180
   step: 0.000001
   mode: box
-  initial: -123.569192
+  initial: -123.769192
 
 anchorage_radius:
   name: Anchorage Radius

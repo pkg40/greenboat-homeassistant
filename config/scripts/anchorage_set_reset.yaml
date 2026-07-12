@@ -1,20 +1,8 @@
-reset_anchorage:
-  alias: "Reset Anchorage to Slip"
-  mode: single
-  sequence:
-    - service: input_number.set_value
-      target:
-        entity_id: input_number.anchorage_latitude
-      data:
-        value: "{{state_attr('device_tracker.your_tracker', 'latitude' }}"
-    - service: input_number.set_value
-      target:
-        entity_id: input_number.anchorage_longitude
-      data:
-        value: "{{state_attr('device_tracker.your_tracker', 'longitude' }}"
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.anchorage_set
+##################################################################
+# scripts:
+#  - set an anchorage at present location (usb)
+#  - unset anchorage and return location to the slip (static zone)
+##################################################################
 
 set_anchorage_here:
   alias: "Set Anchorage to Current Location"
@@ -24,12 +12,44 @@ set_anchorage_here:
       target:
         entity_id: input_number.anchorage_latitude
       data:
-        value: "{{ states('sensor.usb_latitude') }}"
+        value: "{{ state_attr('device_tracker.usb_tracker', 'latitude') | float }}"
     - service: input_number.set_value
       target:
         entity_id: input_number.anchorage_longitude
       data:
-        value: "{{ states('sensor.usb_longitude') }}"
+        value: "{{ state_attr('device_tracker.usb_tracker', 'longitude') | float }}"
     - service: input_boolean.turn_on
       target:
         entity_id: input_boolean.anchorage_set
+    - service: persistent_notification.create
+      data:
+        title: "Anchorage Set"
+#        message: >
+#          Anchorage updated to boat's current location:
+#          {{ state_attr('device_tracker.usb_tracker', 'latitude') }},
+#          {{ state_attr('device_tracker.usb_tracker', 'longitude') }}
+
+reset_anchorage:
+  alias: "Reset Anchorage to Slip"
+  mode: single
+  sequence:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.anchorage_latitude
+      data:
+        value: "{{ state_attr('device_tracker.anchorage_tracker', 'latitude') | float }}"
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.anchorage_longitude
+      data:
+        value: "{{ state_attr('device_tracker.anchorage_tracker', 'longitude') | float }}"
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.anchorage_set
+    - service: persistent_notification.create
+      data:
+        title: "Anchorage Reset"
+#        message: >
+#          Anchorage reset to slip coordinates:
+#          {{ state_attr('device_tracker.anchorage_tracker', 'latitude') }},
+#          {{ state_attr('device_tracker.anchorage_tracker', 'longitude') }}

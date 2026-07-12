@@ -1,0 +1,44 @@
+- sensor:
+    - name: "Berth Distance"
+      unique_id: berth_distance
+      unit_of_measurement: "m"
+      state: >
+        {{ distance(
+            state_attr('device_tracker.usb_tracker', 'latitude'),
+            state_attr('device_tracker.usb_tracker', 'longitude'),
+            state_attr('zone.pedder_bay_slip', 'latitude'),
+            state_attr('zone.pedder_bay_slip', 'longitude')
+        ) * 1000 }}
+      attributes:
+        kilometers: >
+          {{ distance(
+              state_attr('device_tracker.usb_tracker', 'latitude'),
+              state_attr('device_tracker.usb_tracker', 'longitude'),
+              state_attr('zone.pedder_bay_slip', 'latitude'),
+              state_attr('zone.pedder_bay_slip', 'longitude')
+          ) }}
+        nautical_miles: >
+          {{ (distance(
+              state_attr('device_tracker.usb_tracker', 'latitude'),
+              state_attr('device_tracker.usb_tracker', 'longitude'),
+              state_attr('zone.pedder_bay_slip', 'latitude'),
+              state_attr('zone.pedder_bay_slip', 'longitude')
+          ) * 1000 / 1852) | round(3) }}
+        miles: >
+          {{ (distance(
+              state_attr('device_tracker.usb_tracker', 'latitude'),
+              state_attr('device_tracker.usb_tracker', 'longitude'),
+              state_attr('zone.pedder_bay_slip', 'latitude'),
+              state_attr('zone.pedder_bay_slip', 'longitude')
+          ) * 1000 / 1609.344) | round(3) }}
+        bearing: >
+          {{ bearing(
+              state_attr('device_tracker.usb_tracker', 'latitude'),
+              state_attr('device_tracker.usb_tracker', 'longitude'),
+              state_attr('zone.pedder_bay_slip', 'latitude'),
+              state_attr('zone.pedder_bay_slip', 'longitude')
+          ) | round(1) }}
+        from_lat: "{{ state_attr('device_tracker.usb_tracker', 'latitude') }}"
+        from_lon: "{{ state_attr('device_tracker.usb_tracker', 'longitude') }}"
+        to_lat: "{{ state_attr('zone.pedder_bay_slip', 'latitude') }}"
+        to_lon: "{{ state_attr('zone.pedder_bay_slip', 'longitude') }}"

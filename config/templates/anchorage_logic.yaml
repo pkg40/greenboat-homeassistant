@@ -54,6 +54,6 @@
       unique_id: anchorage_tracker
       icon: mdi:anchor
       latitude: >
-        {{ states('sensor.anchorage_latitude') | float }}
+        {{ states('input_number.anchorage_latitude') | float }}
       longitude: >
-        {{ states('sensor.anchorage_longitude') | float }}
+        {{ states('input_number.anchorage_longitude') | float }}
